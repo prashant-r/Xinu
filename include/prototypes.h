@@ -1,6 +1,16 @@
 /* in file addargs.c */
 extern	status	addargs(pid32, int32, int32[], int32,char *, void *);
 
+/* in file app1.c */
+extern process app1();
+
+/* in file app2.c */
+extern process app2();
+
+/* in file app3.c */
+extern process app3();
+
+
 /* in file arp.c */
 
 extern	void	arp_init();
@@ -134,6 +144,12 @@ extern	char	*getmem(uint32);
 /* in file getpid.c */
 extern	pid32	getpid(void);
 
+/* in file getppid.c */
+extern	pid32	getppid(void);
+
+/* in file getpname.c */
+extern	char	*getpname(int32 pid);
+
 /* in file getprio.c */
 extern	syscall	getprio(pid32);
 
@@ -176,6 +192,9 @@ extern	status	insertd(pid32, qid16, int32);
 
 /* in file intr.S */
 extern	uint16	getirmask(void);
+
+/*in file intr.S*/
+extern	void idle(void);
 
 /* in file ioerr.c */
 extern	devcall	ioerr(void);
@@ -316,6 +335,8 @@ extern  void    *memset(void *, const int, int32);
 /* in file mkbufpool.c */
 extern	bpid32	mkbufpool(int32, int32);
 
+/* in file mywelcomemsg.c */
+extern process mywelcomemsg();
 /* in file mount.c */
 extern	syscall	mount(char *, char *, did32);
 extern	int32	namlen(char *, int32);

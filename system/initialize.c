@@ -72,6 +72,11 @@ void	nulluser()
 	kprintf("           [0x%08X to 0x%08X]\n\n",
 		(uint32)&data, (uint32)&ebss - 1);
 
+	/*
+	 * Print the welcome message
+	 */
+
+	resume(create(mywelcomemsg,1024,49,"welcome",0,NULL));
 	/* Enable interrupts */
 
 	enable();
@@ -84,13 +89,9 @@ void	nulluser()
 
 	/* Become the Null process (i.e., guarantee that the CPU has	*/
 	/*  something to run when no other process is ready to execute)	*/
-
-	while (TRUE) {
-		;		/* Do nothing */
-	}
+	idle();
 
 }
-
 /*------------------------------------------------------------------------
  *
  * sysinit  -  Initialize all Xinu data structures and devices

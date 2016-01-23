@@ -215,8 +215,8 @@ gdt1:
 	/*
 	 * Call the nulluser to initialize the system
 	 */
-	call	nulluser
-	call	halt
+	call nulluser
+	call halt
 
 	.globl	inb
 inb:	movl	4(%esp), %edx

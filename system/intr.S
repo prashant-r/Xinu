@@ -8,9 +8,11 @@
 	.globl	restore
 	.globl	enable
 	.globl	pause
+	.globl 	idle
 	.globl	halt
 	.globl	spurious_irq7
 	.globl	spurious_irq15
+
 
 /*------------------------------------------------------------------------
  * disable  -  Disable interrupts and return the previous state
@@ -52,10 +54,17 @@ pause:
 	hlt
 	ret
 
-
+/*-------------------------------------------------------------------
+ * idle - Idle the processor in C1 state
+ * ------------------------------------------------------------------
+*/
+idle:
+	call pause
+	jmp idle
+	ret
 /*------------------------------------------------------------------------
  * halt  -  Do nothing forever
- *------------------------------------------------------------------------
+ *----------------------------------------------------------------------
  */
 halt:
 	jmp halt

@@ -19,13 +19,13 @@ SYSTEM_SFILES =                                                                 
 	clkdisp.S     ctxsw.S       intr.S        start.S     
 
 SYSTEM_CFILES =                                                                 \
-	ascdate.c     bufinit.c     chprio.c      clkhandler.c  clkinit.c       \
+	app1.c		  app2.c		app3.c 		  ascdate.c     bufinit.c       chprio.c      clkhandler.c  clkinit.c       \
 	close.c       conf.c        control.c     create.c      early_imr.c     \
 	evec.c        freebuf.c     freemem.c     getbuf.c      getc.c          \
-	getdev.c      getitem.c     getmem.c      getpid.c      getprio.c       \
+	getdev.c      getitem.c     getmem.c      getpid.c      getppid.c		getpname.c	  getprio.c       \
 	getstk.c      gettime.c     getutime.c    init.c        initialize.c    \
 	insert.c      insertd.c     ioerr.c       ionull.c      kill.c          \
-	kprintf.c     main.c        mark.c        meminit.c     mkbufpool.c     \
+	kprintf.c     main.c       	mark.c        meminit.c     mkbufpool.c		mywelcomemsg.c     \
 	newqueue.c    open.c        panic.c       pci.c         platinit.c      \
 	ptclear.c     ptcount.c     ptcreate.c    ptdelete.c    ptinit.c        \
 	ptrecv.c      ptreset.c     ptsend.c      putc.c        quark_irq.c     \
@@ -34,7 +34,7 @@ SYSTEM_CFILES =                                                                 
 	semcount.c    semcreate.c   semdelete.c   semreset.c    send.c          \
 	signal.c      signaln.c     sleep.c       stacktrace.c  suspend.c       \
 	unsleep.c     userret.c     wait.c        wakeup.c      write.c         \
-	xdone.c       yield.c     
+	xdone.c       yield.c 		
 
 SRC_CFILES   += ${SYSTEM_CFILES}
 SRC_SFILES   += ${SYSTEM_SFILES}
@@ -234,7 +234,12 @@ SRC_FULL    = ${SRC_CFULL} ${SRC_SFULL}
 #------------------------------------------------------------------
 #  Rules for files in directory ../system
 #------------------------------------------------------------------
-
+binaries/app3.o:         ../system/app3.c
+	${CC} ${CFLAGS} -o binaries/app3.o ../system/app3.c
+binaries/app2.o:         ../system/app2.c
+	${CC} ${CFLAGS} -o binaries/app2.o ../system/app2.c
+binaries/app1.o:         ../system/app1.c
+	${CC} ${CFLAGS} -o binaries/app1.o ../system/app1.c
 binaries/clkdisp.o:         ../system/clkdisp.S
 	${CC} ${CFLAGS} -o binaries/clkdisp.o ../system/clkdisp.S
 binaries/ctxsw.o:           ../system/ctxsw.S
@@ -279,8 +284,12 @@ binaries/getitem.o:         ../system/getitem.c
 	${CC} ${CFLAGS} -o binaries/getitem.o ../system/getitem.c
 binaries/getmem.o:          ../system/getmem.c
 	${CC} ${CFLAGS} -o binaries/getmem.o ../system/getmem.c
+binaries/getppid.o:          ../system/getppid.c
+	${CC} ${CFLAGS} -o binaries/getppid.o ../system/getppid.c
 binaries/getpid.o:          ../system/getpid.c
 	${CC} ${CFLAGS} -o binaries/getpid.o ../system/getpid.c
+binaries/getpname.o:          ../system/getpname.c
+	${CC} ${CFLAGS} -o binaries/getpname.o ../system/getpname.c
 binaries/getprio.o:         ../system/getprio.c
 	${CC} ${CFLAGS} -o binaries/getprio.o ../system/getprio.c
 binaries/getstk.o:          ../system/getstk.c
@@ -313,6 +322,8 @@ binaries/meminit.o:         ../system/meminit.c
 	${CC} ${CFLAGS} -o binaries/meminit.o ../system/meminit.c
 binaries/mkbufpool.o:       ../system/mkbufpool.c
 	${CC} ${CFLAGS} -o binaries/mkbufpool.o ../system/mkbufpool.c
+binaries/mywelcomemsg.o:
+	${CC} ${CFLAGS} -o binaries/mywelcomemsg.o ../system/mywelcomemsg.c
 binaries/newqueue.o:        ../system/newqueue.c
 	${CC} ${CFLAGS} -o binaries/newqueue.o ../system/newqueue.c
 binaries/open.o:            ../system/open.c
