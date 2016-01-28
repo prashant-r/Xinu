@@ -8,10 +8,17 @@ process	main(void)
 	/*
 	 * Moved the welcome message to nulluser() method in initialize.c
 	 */
-
-	resume(create(app1, 1024, 48, "app1", 0, NULL));
-	resume(create(app2, 1024, 48, "app2", 0, NULL));
-	recvclr();
+	long a =10;
+	kprintf("10 in hexadecimal little endian is 0x%04x",a);
+	kprintf("\n");
+	kprintf("\n");
+	kprintf("Big endian format as follows:");
+	kprintf("\n");
+	kprintf("1.Result of host2netla is 0x%04x", host2netla(a));
+	kprintf("\n");
+	kprintf("2.Result of host2netlb is 0x%04x", host2netlb(a));
+	kprintf("\n");
+	kprintf("2.Result of host2netlc is 0x%04x", host2netlc(a));
 	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
 
 	/* Wait for shell to exit and recreate it */

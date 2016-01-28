@@ -165,6 +165,13 @@ extern	status	getutime(uint32 *);
 /* in file halt.S */
 extern	void	halt(void);
 
+/* in file host2netlb.c */
+extern long host2netlb(long x);
+
+
+/* in file host2netlc.c */
+extern long host2netlc(long x);
+
 /* in file icmp.c */
 
 extern	void	icmp_init(void);
@@ -195,6 +202,9 @@ extern	uint16	getirmask(void);
 
 /*in file intr.S*/
 extern	void idle(void);
+
+/*in file host2netla.S*/
+extern long host2netla(long x);
 
 /* in file ioerr.c */
 extern	devcall	ioerr(void);
@@ -594,6 +604,7 @@ extern	int32	outw(int32, int32);
 extern	int32	outl(int32, int32);
 extern	int32	outsw(int32, int32, int32);
 extern	int32	insw(int32, int32 ,int32);
+
 
 /* in file suspend.c */
 extern	syscall	suspend(pid32);

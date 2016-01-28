@@ -88,6 +88,7 @@ S_UPPER_SRCS += \
 ../system/ctxsw.S \
 ../system/intr.S \
 ../system/start.S 
+../system/host2netla.S 
 
 OBJS += \
 ./system/ascdate.o \

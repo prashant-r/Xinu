@@ -99,7 +99,7 @@ Xtrap:
 	iret				/* Should never occur		*/
 
 /************************************************************************/
-/*									*/
+/*		*/
 /* Definitions of _Xint0 through _Xint47 entry points for interrupts	*/
 /*		and exceptions (referenced as initial entries in the	*/
 /*		interrupt vector array below)				*/

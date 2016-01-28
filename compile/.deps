@@ -2451,5 +2451,6 @@ clkdisp.o: ../system/clkdisp.S ../include/icu.s
 ctxsw.o: ../system/ctxsw.S
 intr.o: ../system/intr.S ../include/icu.s
 start.o: ../system/start.S
+host2netla.o: ../system/host2netla.S
 ttydispatch.o: ../device/tty/ttydispatch.S ../include/icu.s
 ethdispatch.o: ../device/eth/ethdispatch.S ../include/icu.s
