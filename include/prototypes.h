@@ -121,6 +121,9 @@ extern	void	trap(int32, long *);
 /* in file exception.c */
 extern  void exception(int32, int32*);
 
+/* in file factorial.c */
+extern int factorial(int a);
+
 /* in file freebuf.c */
 extern	syscall	freebuf(char *);
 
@@ -199,6 +202,7 @@ extern	status	insertd(pid32, qid16, int32);
 
 /* in file intr.S */
 extern	uint16	getirmask(void);
+
 
 /*in file intr.S*/
 extern	void idle(void);
@@ -597,6 +601,10 @@ extern	syscall	signaln(sid32, int32);
 /* in file sleep.c */
 extern	syscall	sleepms(uint32);
 extern	syscall	sleep(uint32);
+
+
+/*in file stackdepth.c */
+extern int stackdepth();
 
 /* in file start.S */
 extern	int32	inb(int32);

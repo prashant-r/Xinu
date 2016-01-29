@@ -21,6 +21,8 @@ process	main(void)
 	kprintf("2.Result of host2netlc is 0x%04x", host2netlc(a));
 	kprintf("\n");
 	printsegaddr();
+	kprintf("\n Factorial of 9 is %d", factorial(9));
+	kprintf("Main process stack depth is %d ",stackdepth());
 	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
 
 
