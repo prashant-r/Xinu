@@ -27,5 +27,8 @@ int stackdepth()
 			++depth;
 		}
 		kprintf("\n ---------------------------------- \n");
+		printf("\n ********************************* \n");
+		printf("\n Answer: stack depth is : %d", depth);
+		printf("\n ********************************* \n");
 		return depth;
 }

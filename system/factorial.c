@@ -11,7 +11,7 @@ int factorial(int a)
 			return 1;
 		else
 		{
-			kprintf("\n Stack depth is %d", stackdepth());
+			stackdepth();
 			return a*factorial(a-1);
 		}
 }
