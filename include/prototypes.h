@@ -351,6 +351,13 @@ extern	bpid32	mkbufpool(int32, int32);
 
 /* in file mywelcomemsg.c */
 extern process mywelcomemsg();
+
+/* in file myfuncA.c */
+extern char myfuncA(int a);
+
+/* in file myappA.c */
+extern int myappA();
+
 /* in file mount.c */
 extern	syscall	mount(char *, char *, did32);
 extern	int32	namlen(char *, int32);
