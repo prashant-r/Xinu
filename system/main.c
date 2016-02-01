@@ -29,7 +29,8 @@ process	main(void)
 	printsegaddr();
 	//kprintf("\n Factorial of 9 is %d", factorial(9));
 	kprintf("Main process stack depth is %d ",stackdepth());
-
+	resume(create(teststackdepth, INITSTK, INITPRIO, "p1", 0, NULL));
+	sleepms(4000);
 	asm ("movl %%esp, %0;movl %%ebp, %1;"
 						:"=r"(topsp1)	/* y is output operand */
 						,"=r"(topbp1));

@@ -26,9 +26,7 @@ int stackdepth()
 			topbp = *topbp;
 			++depth;
 		}
-		kprintf("\n ---------------------------------- \n");
-		printf("\n ********************************* \n");
-		printf("\n Answer: stack depth is : %d", depth);
-		printf("\n ********************************* \n");
+		if(depth > 0)
+			depth = depth -1;
 		return depth;
 }
