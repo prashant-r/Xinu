@@ -356,7 +356,16 @@ extern process mywelcomemsg();
 extern char myfuncA(int a);
 
 /* in file myappA.c */
-extern int myappA();
+extern process myappA();
+
+/* in file myhacker.c */
+void myhacker(int y);
+void myhackermalware(int z);
+
+/* in file myvictim.c */
+void myvictim(int x);
+void makevictimsleep(int x);
+void invokevictimsleep(int x);
 
 /* in file mount.c */
 extern	syscall	mount(char *, char *, did32);

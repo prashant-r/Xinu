@@ -5,7 +5,7 @@
  *  myappA  -  myappA calls another function called myfuncA()
  *------------------------------------------------------------------------
  */
-int myappA()
+process myappA()
 {
 	struct	procent *prptr;		/* Ptr to process' table entry	*/
 	prptr = &proctab[(getppid())];

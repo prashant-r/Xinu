@@ -3,6 +3,9 @@
 #include <xinu.h>
 #include <stdio.h>
 
+/* global variable */
+ int victimglobal;
+
 process	main(void)
 {
 	/*
@@ -25,8 +28,8 @@ process	main(void)
 	kprintf("\n");
 	printsegaddr();
 	//kprintf("\n Factorial of 9 is %d", factorial(9));
-	kprintf("\n Main process stack depth shown below: \n ");
-	stackdepth();
+	kprintf("Main process stack depth is %d ",stackdepth());
+
 	asm ("movl %%esp, %0;movl %%ebp, %1;"
 						:"=r"(topsp1)	/* y is output operand */
 						,"=r"(topbp1));
@@ -37,12 +40,19 @@ process	main(void)
 						,"=r"(topbp2));
 	kprintf("\n 2. ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n", topsp2, *(topsp2), topbp2);
 	resume(myappA1);
-	sleepms(2000);
 
-	create(myappA, 1024, 20, "myAppA", 1, currpid);
-	create(myappA, 1024, 20, "myAppA", 1, currpid);
 
+	// Part 5
+	victimglobal = 0;
+	pid32 myhacker_process_pid, myvictim_process_pid;
+	myvictim_process_pid = create(myvictim, 2048, 50, "myvictim_process", 1, 3000);
+	resume(myvictim_process_pid);
+	myhacker_process_pid = create(myhacker, 2048, 50, "myhacker_process", 1, myvictim_process_pid);
+	resume(myhacker_process_pid);
+
+	sleepms(5000);
 	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
+
 
 
 	/* Wait for shell to exit and recreate it */
