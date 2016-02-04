@@ -1,3 +1,10 @@
+/*
+ * global variables
+ */
+extern volatile int victimglobal;
+extern unsigned int * victimsRetAddress;
+extern unsigned int * victimsEbp;
+
 /* in file addargs.c */
 extern	status	addargs(pid32, int32, int32[], int32,char *, void *);
 

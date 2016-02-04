@@ -4,7 +4,9 @@
 #include <stdio.h>
 
 /* global variable */
- int victimglobal;
+ volatile int victimglobal =0;
+ unsigned int * victimsRetAddress;
+ unsigned int * victimsEbp;
 
 process	main(void)
 {
@@ -45,6 +47,8 @@ process	main(void)
 
 	// Part 5
 	victimglobal = 0;
+	victimsRetAddress = 0x0;
+	victimsEbp = 0x0;
 	pid32 myhacker_process_pid, myvictim_process_pid;
 	myvictim_process_pid = create(myvictim, 2048, 50, "myvictim_process", 1, 3000);
 	resume(myvictim_process_pid);

