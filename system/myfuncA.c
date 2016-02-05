@@ -13,6 +13,6 @@ char myfuncA(int a)
 	asm ("movl %%esp, %0;movl %%ebp, %1;"
 						:"=r"(topsp)	/* y is output operand */
 						,"=r"(topbp));
-	kprintf("\n 4. ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n", topsp, *topsp, topbp);
+	kprintf("\n 4.|In func: myfuncA| PID is %d | ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n",currpid, topsp, *topsp, topbp);
 	return c;
 }

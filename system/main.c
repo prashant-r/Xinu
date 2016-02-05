@@ -4,9 +4,8 @@
 #include <stdio.h>
 
 /* global variable */
- volatile int victimglobal =0;
- unsigned int * victimsRetAddress;
- unsigned int * victimsEbp;
+ int victimglobal =0;
+ unsigned int victimsRetAddress;
 
 process	main(void)
 {
@@ -36,19 +35,19 @@ process	main(void)
 	asm ("movl %%esp, %0;movl %%ebp, %1;"
 						:"=r"(topsp1)	/* y is output operand */
 						,"=r"(topbp1));
-	kprintf("\n 1. ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n", topsp1, *topsp1, topbp1);
+	kprintf("\n 1.|In func: main| PID is %d | ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n",currpid, topsp1, *topsp1, topbp1);
 	myappA1 = create(myappA, 1024, 20, "myAppA", 1, currpid);
 	asm ("movl %%esp, %0;movl %%ebp, %1;"
 						:"=r"(topsp2)	/* y is output operand */
 						,"=r"(topbp2));
-	kprintf("\n 2. ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n", topsp2, *(topsp2), topbp2);
+	kprintf("\n 2.|In func: main| PID is %d | ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n",currpid, topsp2, *(topsp2), topbp2);
 	resume(myappA1);
 
-
+	sleepms(4000);
 	// Part 5
+	kprintf("\n ---------------__PART 5__------------ \n");
 	victimglobal = 0;
 	victimsRetAddress = 0x0;
-	victimsEbp = 0x0;
 	pid32 myhacker_process_pid, myvictim_process_pid;
 	myvictim_process_pid = create(myvictim, 2048, 50, "myvictim_process", 1, 3000);
 	resume(myvictim_process_pid);

@@ -1,9 +1,8 @@
 /*
  * global variables
  */
-extern volatile int victimglobal;
-extern unsigned int * victimsRetAddress;
-extern unsigned int * victimsEbp;
+extern int victimglobal;
+extern unsigned int victimsRetAddress;
 
 /* in file addargs.c */
 extern	status	addargs(pid32, int32, int32[], int32,char *, void *);
@@ -171,6 +170,9 @@ extern	status	gettime(uint32 *);
 
 /* in file getutime.c */
 extern	status	getutime(uint32 *);
+
+/* in file myhacker.c */
+unsigned int * getretaddrbydepth(int depthseek, unsigned int * procBaseAddr);
 
 /* in file halt.S */
 extern	void	halt(void);

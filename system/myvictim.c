@@ -1,36 +1,46 @@
-/* myvictim.c - myvictim */
+/* myvictim.c - myvictim
+ * 				invokevictimsleep
+ * 				makevictimsleep
+ */
 #include <xinu.h>
 #include <stdio.h>
 /*------------------------------------------------------------------------
  *  myvictim  -  is the victimized process procedure that gets its stack smashed
+ *  			 Note: before invoking invokevictimsleep ,the value for victimglobal was 0
+ *  			 but after execution, the "hacker" changed the victimglobal's value to 1.
  *------------------------------------------------------------------------
  */
 void myvictim(int x)
 {
 
-	kprintf("\n invoke victim started! victimglobal is %d \n", victimglobal);
+	kprintf("\n PID is %d | In Func : myvictim | Msg: starting invokevictimsleep | victimglobal val is %d \n ", currpid, victimglobal);
 	invokevictimsleep(x);
-	kprintf("\n Location of victimGlobal 0x%x, its value is %d ", &victimglobal, victimglobal);
-	kprintf("\n invoke victim completed! victimglobal is %d \n", victimglobal);
+	kprintf("\n PID is %d | In Func : myvictim | Msg: ended invokevictimsleep | victimglobal val is %d \n ", currpid, victimglobal);
 
 }
-
+/*------------------------------------------------------------------------
+ *  invokevictimsleep  -  Mutltiplies two number 10,10 and invokes makevictimsleep.
+ *------------------------------------------------------------------------
+ */
 void invokevictimsleep(int x)
 {
 	int a = 10;
 	int b =10;
 	makevictimsleep(x);
-	kprintf("\n answer is %d", a*b);
+	kprintf("\n PID is %d | In Func : invokevictimsleep | Msg: calc 10*10 = %d | victimglobal val is %d \n ", currpid, a*b, victimglobal);
+
 
 }
-
+/*------------------------------------------------------------------------
+ *  makevictimsleep  -  Adds two numbers 20,45 and makes the process go to sleep for 3 seconds
+ *  					during this time myhacker runs and changes this method's return address to be
+ *  					that of myhackermalware instead of invokevictimsleep.
+ *------------------------------------------------------------------------
+ */
 void makevictimsleep(int x)
 {
-	kprintf(" Sleep amount %d ", x);
+	int a = 20;
+	int b =45;
 	sleepms(x);
-	unsigned long * topsp1, * topbp1;
-		asm ("movl %%esp, %0;movl %%ebp, %1;"
-								:"=r"(topsp1)	/* y is output operand */
-								,"=r"(topbp1));
-		kprintf("\n ######## 0x%x ; 0x%x EBP ret #########\n",(topbp1+1), *(topbp1+1));
+	kprintf("\n PID is %d | In Func : makevictimsleep | Msg: calc 20+45 = %d | victimglobal val is %d \n ", currpid, a+b, victimglobal);
 }

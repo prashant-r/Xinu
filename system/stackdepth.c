@@ -2,7 +2,7 @@
 #include <xinu.h>
 #include <stdio.h>
 /*------------------------------------------------------------------------
- *  stackdepth  -  returns the depth of the runtime stack in the case of nested function cals
+ *  stackdepth  -  returns the depth of the runtime stack in the case of nested function calls
  *------------------------------------------------------------------------
  */
 int stackdepth()

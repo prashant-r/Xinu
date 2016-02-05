@@ -2,7 +2,7 @@
 #include <xinu.h>
 #include <stdio.h>
 /*------------------------------------------------------------------------
- *  teststackdepth  -  testsstackdepth
+ *  teststackdepth  -  testsstackdepth tests the case provided on design spec for lab1
  *------------------------------------------------------------------------
  */
 process teststackdepth()

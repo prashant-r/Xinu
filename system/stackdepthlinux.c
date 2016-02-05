@@ -16,7 +16,7 @@ int main()
 
 	// Expected stack depth is 10.
 }
- /*------------------------------------------------------------------------
+/*------------------------------------------------------------------------
  *  factorial  -  is a recursive function to compute the factorial of the argument
  *------------------------------------------------------------------------
  */
@@ -31,9 +31,14 @@ int factorial(int a)
 		}
 }
 
-// Changes needed to be made:
-// 1. processBase which is the base address of process would need to be set to (0x0/NULL).
-// 2. uint32 not defined.
+/*------------------------------------------------------------------------
+ *  stackdepth  -  finds the depth of the curr function executing wrt to the base process, in Linux systems
+ *
+ * Changes needed to be made w.r.t Unix version :
+ * 1. processBase which is the base address of process would need to be set to (0x0/NULL).
+ * 2. uint32 not defined.
+ *------------------------------------------------------------------------
+ */
 int stackdepth()
 {
 		unsigned long *topsp, *topbp;

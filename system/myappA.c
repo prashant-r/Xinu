@@ -15,11 +15,11 @@ process myappA()
 	asm ("movl %%esp, %0;movl %%ebp, %1;"
 						:"=r"(topsp)	/* y is output operand */
 						,"=r"(topbp));
-	kprintf("\n 3. ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n", topsp, *topsp, topbp);
+	kprintf("\n 3.|In func: myappA| PID is %d | ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n",currpid,  topsp, *topsp, topbp);
 	myfuncA(64);
 	asm ("movl %%esp, %0;movl %%ebp, %1;"
 							:"=r"(topsp)	/* y is output operand */
 							,"=r"(topbp));
-	kprintf("\n 5. ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n,", topsp, *topsp, topbp);
+	kprintf("\n 5.|In func: myappA| PID is %d |  ESP is 0x%x , its content is 0x%x and EBP is 0x%x \n",currpid, topsp, *topsp, topbp);
 	return OK;
 }
