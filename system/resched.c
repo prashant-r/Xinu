@@ -3,16 +3,17 @@
 #include <xinu.h>
 
 struct	defer	Defer;
-
 /*------------------------------------------------------------------------
  *  resched  -  Reschedule processor to highest priority eligible process
  *------------------------------------------------------------------------
  */
 void	resched(void)		/* Assumes interrupts are disabled	*/
 {
+	uint32 currTime = clktimemsec;
 	struct procent *ptold;	/* Ptr to table entry for old process	*/
 	struct procent *ptnew;	/* Ptr to table entry for new process	*/
 
+	uint32 addToTotalTime =0;
 	/* If rescheduling is deferred, record attempt and return */
 
 	if (Defer.ndefers > 0) {
@@ -36,15 +37,20 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 	}
 
 	/* Force context switch to highest priority ready process */
-
 	currpid = dequeue(readylist);
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
 	preempt = QUANTUM;		/* Reset time slice for process	*/
+
+	//Update the total processing time for context switched out process
+	// Handle the case where the counter overflows then get the absolute value of difference
+	addToTotalTime = (currTime)-(ptold->prctxswintime);
+
+	ptold->prcpumsec = ptold->prcpumsec +  addToTotalTime;
+	//Update the context switch in time for new process
+	ptnew->prctxswintime = currTime;
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
-
 	/* Old process returns here when resumed */
-
 	return;
 }
 

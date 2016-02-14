@@ -1,8 +1,16 @@
+
 /*
  * global variables
  */
+/*
+ * in main.c
+ */
 extern int victimglobal;
 extern unsigned int victimsRetAddress;
+/*
+ * in clkhandler.c
+ */
+extern const uint32 MAX_UINT32;
 
 /* in file addargs.c */
 extern	status	addargs(pid32, int32, int32[], int32,char *, void *);
@@ -16,6 +24,10 @@ extern process app2();
 /* in file app3.c */
 extern process app3();
 
+/* in file lab2q3.c*/
+process workerProcessTypeA();
+process workerProcessTypeB();
+process monitorProcess(pid32 wp1,pid32 wp2, pid32 wp3, pid32 wp4, int time);
 
 /* in file arp.c */
 
@@ -53,6 +65,7 @@ extern	void	clkinit(void);
 /* in file clkdisp.S */
 
 extern	void	clkdisp(void);
+
 
 /* in file close.c */
 
@@ -255,8 +268,16 @@ extern	void	netstart(void);
 
 extern	syscall	kill(pid32);
 
-/* in file lexan.c */
+/* in file lab2q3.c*/
+extern void lab2q3t1(void);
 
+/* in file lab2q3.c*/
+extern void lab2q3t2(void);
+
+/* in file lab2q3.c */
+extern void lab2q3t3(void);
+
+/* in file lexan.c */
 extern	int32	lexan(char *, int32, char *, int32 *, int32 [], int32 []);
 
 /* in file lfibclear.c */
@@ -368,13 +389,13 @@ extern char myfuncA(int a);
 extern process myappA();
 
 /* in file myhacker.c */
-void myhacker(int y);
-void myhackermalware(int z);
+extern void myhacker(int y);
+extern void myhackermalware(int z);
 
 /* in file myvictim.c */
-void myvictim(int x);
-void makevictimsleep(int x);
-void invokevictimsleep(int x);
+extern void myvictim(int x);
+extern void makevictimsleep(int x);
+extern void invokevictimsleep(int x);
 
 /* in file mount.c */
 extern	syscall	mount(char *, char *, did32);
