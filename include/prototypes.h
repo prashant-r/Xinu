@@ -2,8 +2,13 @@
 /*
  * global variables
  */
+
 /*
  * in main.c
+ */
+extern int lab2flag;
+/*
+ * in myhacker.c
  */
 extern int victimglobal;
 extern unsigned int victimsRetAddress;
@@ -276,6 +281,9 @@ extern void lab2q3t2(void);
 
 /* in file lab2q3.c */
 extern void lab2q3t3(void);
+
+/* in file lab2q3.c */
+extern void lab2q3t4(void);
 
 /* in file lexan.c */
 extern	int32	lexan(char *, int32, char *, int32 *, int32 [], int32 []);

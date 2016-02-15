@@ -4,7 +4,8 @@
  */
 #include <xinu.h>
 #include <stdio.h>
-
+int victimglobal;
+unsigned int victimsRetAddress;
 // MYVICTIM_STACK_DEPTH_TO_HACK = 3 because there are 2 nested functions following
 // original myvictim run, the total number of stack frames is 3 so we need to try to get to the stackframe
 // of the makevictimsleep method

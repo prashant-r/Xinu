@@ -33,21 +33,35 @@ void lab2q3t2()
 		pid32 wp2 = create(workerProcessTypeA, 1024, 54, "Worker Proc2", 0, NULL);
 		pid32 wp3 = create(workerProcessTypeA, 1024, 54, "Worker Proc3", 0, NULL);
 		pid32 wp4 = create(workerProcessTypeA, 1024, 54, "Worker Proc4", 0, NULL);
-		resume(create(monitorProcess, 1024, 55, "Monitor Proc", 5, wp1,wp2,wp3,wp4,245));
+		resume(create(monitorProcess, 1024, 57, "Monitor Proc", 5, wp1,wp2,wp3,wp4,245));
 		return;
 }
 
 void lab2q3t3()
 {
 		kprintf("\n -------------------------");
-		kprintf("\n In lab2q3t3 test | Note: 3 (workerProcessTypeA) equal CPU usage and 1 sleeper workerProcessTypeB");
-		kprintf("\n (Monitor process will have higher priority than workerProcessTypeA) ");
+		kprintf("\n In lab2q3t3 test | Note: 3 (workerProcessTypeA) and 1 sleeper workerProcessTypeB");
+		kprintf("\n (Monitor process will have higher priority than workerProcessTypeA/B) ");
 		kprintf("\n -------------------------\n");
 		pid32 wp1 = create(workerProcessTypeA, 1024, 54, "Worker Proc1", 0, NULL);
 		pid32 wp2 = create(workerProcessTypeA, 1024, 54, "Worker Proc2", 0, NULL);
 		pid32 wp3 = create(workerProcessTypeA, 1024, 54, "Worker Proc3", 0, NULL);
 		pid32 wp4 = create(workerProcessTypeB, 1024, 54, "Worker Proc4", 0, NULL);
-		resume(create(monitorProcess, 1024, 55, "Monitor Proc", 5, wp1,wp2,wp3,wp4,375));
+		resume(create(monitorProcess, 1024, 57, "Monitor Proc", 5, wp1,wp2,wp3,wp4,375));
+		return;
+}
+
+void lab2q3t4()
+{
+		kprintf("\n -------------------------");
+		kprintf("\n In lab2q3t4 test | Note: 3 (workerProcessTypeA) and 1 higher priority workerProcessTypeA");
+		kprintf("\n (Monitor process will have higher priority than workerProcessTypeA) ");
+		kprintf("\n -------------------------\n");
+		pid32 wp1 = create(workerProcessTypeA, 1024, 54, "Worker Proc1", 0, NULL);
+		pid32 wp2 = create(workerProcessTypeA, 1024, 54, "Worker Proc2", 0, NULL);
+		pid32 wp3 = create(workerProcessTypeA, 1024, 54, "Worker Proc3", 0, NULL);
+		pid32 wp4 = create(workerProcessTypeA, 1024, 55, "Worker Proc4", 0, NULL);
+		resume(create(monitorProcess, 1024, 57, "Monitor Proc", 5, wp1,wp2,wp3,wp4,375));
 		return;
 }
 

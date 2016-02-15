@@ -15,15 +15,29 @@ status	insert(
 	int16	curr;			/* Runs through items in a queue*/
 	int16	prev;			/* Holds previous node index	*/
 
-	if (isbadqid(q) || isbadpid(pid)) {
+	if(isbadpid(pid))
+	{
+		kprintf("\n Somehting went wrong BAD PID \n");
+		return SYSERR;
+	}
+	if (isbadqid(q)) {
+		kprintf("\n Somehting went wrong BAD QID \n");
 		return SYSERR;
 	}
 
 	curr = firstid(q);
-	while (queuetab[curr].qkey >= key) {
+	if(lab2flag == 4){
+	while ((uint32)queuetab[curr].qkey <= (uint32)key) {
 		curr = queuetab[curr].qnext;
+		}
 	}
+	else
+	{
+		while (queuetab[curr].qkey >= key) {
+				curr = queuetab[curr].qnext;
+			}
 
+	}
 	/* Insert process between curr node and previous node */
 
 	prev = queuetab[curr].qprev;	/* Get index of previous node	*/
