@@ -8,6 +8,11 @@
 extern	void	start(void);	/* Start of Xinu code			*/
 extern	void	*_end;		/* End of Xinu code			*/
 
+
+/*
+ * Definition of constant - Max of int32 type
+ */
+const int32 MAX_INT32 = 0x7FFFFFFF;
 /* Function prototypes */
 
 extern	void main(void);	/* Main is the first process created	*/
@@ -146,7 +151,7 @@ static	void	sysinit()
 	prptr->prstkbase = getstk(NULLSTK);
 	prptr->prstklen = NULLSTK;
 	prptr->prstkptr = 0;
-	prptr->prcpumsec = 1;
+	prptr->prcpumsec = MAX_INT32;
 	prptr->prctxswintime = 0;
 	currpid = NULLPROC;
 	

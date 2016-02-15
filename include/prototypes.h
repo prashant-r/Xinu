@@ -17,6 +17,11 @@ extern unsigned int victimsRetAddress;
  */
 extern const uint32 MAX_UINT32;
 
+/*
+ * in initialize.c
+ */
+extern const int32 MAX_INT32;
+
 /* in file addargs.c */
 extern	status	addargs(pid32, int32, int32[], int32,char *, void *);
 
@@ -133,6 +138,9 @@ extern 	devcall ethwrite(struct dentry *, char *buf, int32);
 
 /* in file kprintf.c */
 extern int console_init(void);
+
+/* in file cpubound.c */
+extern void cpubound(uint32 LOOP1, uint32 LOOP2);
 
 /* in file early_imr.c */
 extern int remove_irm_protections(void);
@@ -284,6 +292,16 @@ extern void lab2q3t3(void);
 
 /* in file lab2q3.c */
 extern void lab2q3t4(void);
+
+
+/* in file lab2q4.c*/
+extern void lab2q4t1(void);
+
+/* in file lab2q4.c*/
+extern void lab2q4t2(void);
+
+/* in file lab2q4.c */
+extern void lab2q4t3(void);
 
 /* in file lexan.c */
 extern	int32	lexan(char *, int32, char *, int32 *, int32 [], int32 []);
