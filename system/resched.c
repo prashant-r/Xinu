@@ -32,9 +32,15 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 	// force it to only execute if no other process is ready
 	if(currpid != 0)
 		ptold->prcpumsec = ptold->prcpumsec +  addToTotalTime;
+
+	if(strcmp(ptold->prname,"Worker Proc4") == 0)
+	{
+		kprintf("\n %d %s %d \n", ptold->prstate, ptold->prname, ptold->prcpumsec);
+	}
 	if(lab2flag == 4){
 	if (ptold->prstate == PR_CURR) {  /* Process remains eligible */
 		if (ptold->prcpumsec < firstkey(readylist)) {
+			ptold->prctxswintime = currTime;
 			return;
 		}
 
@@ -49,6 +55,7 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 
 		if (ptold->prstate == PR_CURR) {  /* Process remains eligible */
 			if (ptold->prprio > firstkey(readylist)) {
+				ptold->prctxswintime = currTime;
 				return;
 			}
 
