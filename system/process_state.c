@@ -19,7 +19,7 @@ struct	procent	*prptr;		/* pointer to process		*/
 
 	kprintf("%3s %-16s %5s %4s %4s %10s %-10s %10s %6s %16s\n",
 		   "Pid", "Name", "State", "Prio", "Ppid", "Stack Base",
-		   "Stack Ptr", "Stack Size", "CPU time ms", "ReadyQ Posn");
+		   "Stack Ptr", "Stack Size", "CPU time", "ReadyQ Posn");
 
 	kprintf("%3s %-16s %5s %4s %4s %10s %-10s %10s %10s %12s\n",
 		   "---", "----------------", "-----", "----", "----",

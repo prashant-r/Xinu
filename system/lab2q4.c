@@ -48,4 +48,3 @@ void lab2q4t3()
 		resume(create(monitorProcess, 1024, 57, "Monitor Proc", 5, wp1,wp2,wp3,wp4,375));
 		return;
 }
-

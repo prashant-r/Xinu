@@ -251,6 +251,9 @@ extern	devcall	ioerr(void);
 /* in file ionull.c */
 extern	devcall	ionull(void);
 
+/* in file iobound.c */
+extern void iobound(uint32 LOOP1, uint32 LOOP2);
+
 /* in file ip.c */
 
 extern	void	ip_in(struct netpacket *);
