@@ -151,7 +151,10 @@ static	void	sysinit()
 	prptr->prstkbase = getstk(NULLSTK);
 	prptr->prstklen = NULLSTK;
 	prptr->prstkptr = 0;
-	prptr->prcpumsec = MAX_INT32;
+	if(lab2flag == 4)
+		prptr->prcpumsec = MAX_INT32;
+	else
+		prptr->prcpumsec = 0;
 	prptr->prctxswintime = 0;
 	currpid = NULLPROC;
 	

@@ -80,7 +80,7 @@ process workerProcessTypeB()
 	int counter = 0;
 	while(TRUE)
 	{
-		if(++counter>=200)
+		if(++counter>=2000000)
 		{
 			counter =0;
 			sleepms(20);
@@ -97,12 +97,11 @@ process monitorProcess(pid32 wp1,pid32 wp2, pid32 wp3, pid32 wp4, int time)
 	resume(wp3);
 	resume(wp4);
 	sleepms(time);
-	xsh_ps(0,NULL);
+	process_state();
 	kill(wp1);
 	kill(wp2);
 	kill(wp3);
 	kill(wp4);
-
 	return OK;
 }
 

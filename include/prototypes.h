@@ -457,6 +457,8 @@ extern	void	pdumph(struct netpacket *);
 /* in file printsegaddr.c*/
 extern void printsegaddr();
 
+/* in file process_state.c */
+extern void process_state();
 /* in file platinit.c */
 extern	void	platinit();
 
