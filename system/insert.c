@@ -26,18 +26,11 @@ status	insert(
 	}
 
 	curr = firstid(q);
-	if(lab2flag == 4){
-	while ((uint32)queuetab[curr].qkey <= (uint32)key) {
-		curr = queuetab[curr].qnext;
-		}
-	}
-	else
-	{
+
 		while (queuetab[curr].qkey >= key) {
 				curr = queuetab[curr].qnext;
 			}
 
-	}
 	/* Insert process between curr node and previous node */
 
 	prev = queuetab[curr].qprev;	/* Get index of previous node	*/

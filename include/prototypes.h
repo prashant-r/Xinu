@@ -582,6 +582,9 @@ extern	void	restore(intmask);
 /* in file resume.c */
 extern	pri16	resume(pid32);
 
+/* in file resched.c */
+extern void reward_ready_waiting();
+
 /* in file rfsgetmode.c */
 extern	int32	rfsgetmode(char * );
 

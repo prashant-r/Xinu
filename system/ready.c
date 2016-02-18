@@ -21,8 +21,8 @@ status	ready(
 
 	prptr = &proctab[pid];
 	prptr->prstate = PR_READY;
-	if(lab2flag == 4 )
-		insert(pid, readylist, prptr->prcpumsec);
+	if(lab2flag == 4 || lab2flag == 5)
+		insert(pid, readylist, -(int32)prptr->prcpumsec);
 	else
 		insert(pid, readylist, prptr->prprio);
 

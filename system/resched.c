@@ -32,36 +32,33 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 	// force it to only execute if no other process is ready
 	if(currpid != 0)
 		ptold->prcpumsec = ptold->prcpumsec +  addToTotalTime;
-	if(lab2flag == 4){
+	int32 totest = ptold->prprio;
+
+	if(lab2flag == 4 || lab2flag == 5)
+		totest =-(int32)ptold->prcpumsec;
+
 	if (ptold->prstate == PR_CURR) {  /* Process remains eligible */
-		if (ptold->prcpumsec < firstkey(readylist)) {
-			ptold->prctxswintime = currTime;
-			return;
-		}
-
-		/* Old process will no longer remain current */
-
-		ptold->prstate = PR_READY;
-		insert(currpid, readylist, ptold->prcpumsec);
-		}
-	}
-	else
-	{
-
-		if (ptold->prstate == PR_CURR) {  /* Process remains eligible */
-			if (ptold->prprio > firstkey(readylist)) {
+		if (totest > firstkey(readylist)) {
 				ptold->prctxswintime = currTime;
+				if(lab2flag ==5)
+					reward_ready_waiting();
 				return;
 			}
 
 			/* Old process will no longer remain current */
-
+			if(lab2flag == 5)
+				reward_ready_waiting();
 			ptold->prstate = PR_READY;
-			insert(currpid, readylist, ptold->prprio);
+			insert(currpid, readylist, totest);
+			currpid = dequeue(readylist);
 		}
+	else
+	{
+		if(lab2flag ==5)
+			reward_ready_waiting();
+		currpid = dequeue(readylist);
 	}
 	/* Force context switch to highest priority ready process */
-	currpid = dequeue(readylist);
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
 	preempt = QUANTUM;		/* Reset time slice for process	*/
@@ -71,6 +68,23 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 	/* Old process returns here when resumed */
 	return;
 }
+
+void reward_ready_waiting()
+{
+	qid16	curr;			/* Runs through items in a queue*/
+	qid16	prev;			/* Holds previous node index	*/
+
+	struct procent * prptr;
+	curr = firstid(readylist);
+	while (curr != queuetail(readylist)) {
+			prptr = &proctab[curr];
+			if(curr!=0)
+				queuetab[curr].qkey +=6;
+			curr = queuetab[curr].qnext;
+		}
+}
+
+
 
 /*------------------------------------------------------------------------
  *  resched_cntl  -  Control whether rescheduling is deferred or allowed
