@@ -7,10 +7,84 @@
 /* lab2q4.c - lab2q4 */
 #include <xinu.h>
 #include <stdio.h>
+
 void lab2q4t1()
 {
+
+		pid32 a,b,c,d,e,f;
 		kprintf("\n -------------------------");
-		kprintf("\n In lab2q4t1 test | Note: 4 (workerProcessTypeA) equal CPU usage seen by  monitorProcess");
+		kprintf("\n In lab2q4t1 test | Note: 6 cpubound processes spawned by main process");
+		kprintf("\n -------------------------\n");
+		resume(a= create(cpubound, 1024, 1, "cpubound 1", 2, 1, 75500));
+		resume(b =create(cpubound, 1024, 1, "cpubound 2", 2, 1, 75500));
+		resume(c = create(cpubound, 1024, 1, "cpubound 3", 2, 1, 75500));
+		resume(d = create(cpubound, 1024, 1, "cpubound 4", 2, 1, 75500));
+		resume(e = create(cpubound, 1024, 1, "cpubound 5", 2, 1, 75500));
+		resume(f = create(cpubound, 1024, 1, "cpubound 6", 2, 1, 75500));
+		struct procent * prptr;
+		int counter = 0;
+		while(!(prptr = &proctab[a])->prstate == PR_FREE ||!(prptr = &proctab[b])->prstate == PR_FREE ||
+		!(prptr = &proctab[c])->prstate == PR_FREE || !(prptr = &proctab[e])->prstate == PR_FREE || !(prptr = &proctab[d])->prstate == PR_FREE || !(prptr = &proctab[f])->prstate == PR_FREE)
+		{
+				if(counter++ >2000000){
+						counter =0;
+						process_state();
+					}
+		}
+
+}
+
+void lab2q4t2()
+{
+		pid32 a,b,c,d,e,f;
+		kprintf("\n -------------------------");
+		kprintf("\n In lab2q4t2 test | Note: 6 iobound processes spawned by main process");
+		kprintf("\n -------------------------\n");
+		resume(a = create(iobound, 1024, 1, "iobound 1", 2, 10, 20));
+		resume(b = create(iobound, 1024, 1, "iobound 2", 2, 20, 30));
+		resume(c = create(iobound, 1024, 1, "iobound 3", 2, 30, 20));
+		resume(d = create(iobound, 1024, 1, "iobound 4", 2, 30, 10));
+		resume(e = create(iobound, 1024, 1, "iobound 5", 2, 40, 30));
+		resume(f = create(iobound, 1024, 1, "iobound 6", 2, 20, 10));
+		struct procent * prptr;
+		int counter = 0;
+			while(!(prptr = &proctab[a])->prstate == PR_FREE ||!(prptr = &proctab[b])->prstate == PR_FREE ||
+		!(prptr = &proctab[c])->prstate == PR_FREE || !(prptr = &proctab[e])->prstate == PR_FREE || !(prptr = &proctab[d])->prstate == PR_FREE || !(prptr = &proctab[f])->prstate == PR_FREE)
+			{
+					if(counter++ >21474830){
+							counter =0;
+							process_state();
+						}
+			}
+}
+void lab2q4t3()
+{
+		pid32 a,b,c,d,e,f;
+		kprintf("\n -------------------------");
+		kprintf("\n In lab2q4t3 test | Note: 3 cpubound processes and 3 iobound processes spawned by main process");
+		kprintf("\n -------------------------\n");
+		resume(a= create(iobound, 1024, 1, "iobound 4", 2, 20, 10));
+		resume(b =create(iobound, 1024, 1, "iobound 5", 2, 10, 15));
+		resume(c =create(iobound, 1024, 1, "iobound 6", 2, 20, 10));
+		resume(d =create(cpubound, 1024, 1, "cpubound 4", 2, 1, 75500));
+		resume(e =create(cpubound, 1024, 1, "cpubound 5", 2, 1, 75500));
+		resume(f =create(cpubound, 1024, 1, "cpubound 6", 2, 1, 75500));
+		struct procent * prptr;
+		int counter = 0;
+		while(!(prptr = &proctab[a])->prstate == PR_FREE ||!(prptr = &proctab[b])->prstate == PR_FREE ||
+		!(prptr = &proctab[c])->prstate == PR_FREE || !(prptr = &proctab[e])->prstate == PR_FREE || !(prptr = &proctab[d])->prstate == PR_FREE || !(prptr = &proctab[f])->prstate == PR_FREE)
+		{
+			if(counter++ >21474830){
+					counter =0;
+					process_state();
+			}
+		}
+}
+
+void lab2q4t4()
+{
+		kprintf("\n -------------------------");
+		kprintf("\n In lab2q4t3 test | Note: 4 (workerProcessTypeA) equal CPU usage seen by  monitorProcess");
 		kprintf("\n (Monitor process will have higher priority than workerProcessTypeA) ");
 		kprintf("\n -------------------------\n");
 		pid32 wp1 = create(workerProcessTypeA, 1024, 54, "Worker Proc1", 0, NULL);
@@ -21,10 +95,10 @@ void lab2q4t1()
 		return;
 }
 
-void lab2q4t2()
+void lab2q4t5()
 {
 		kprintf("\n -------------------------");
-		kprintf("\n In lab2q4t2 test | Note: 3 (workerProcessTypeA) and 1 sleeper workerProcessTypeB");
+		kprintf("\n In lab2q4t4 test | Note: 3 (workerProcessTypeA) and 1 sleeper workerProcessTypeB");
 		kprintf("\n (Monitor process will have higher priority than workerProcessTypeA/B) ");
 		kprintf("\n -------------------------\n");
 		pid32 wp1 = create(workerProcessTypeA, 1024, 54, "Worker Proc1", 0, NULL);
@@ -35,10 +109,10 @@ void lab2q4t2()
 		return;
 }
 
-void lab2q4t3()
+void lab2q4t6()
 {
 		kprintf("\n -------------------------");
-		kprintf("\n In lab2q4t3 test | Note: 3 (workerProcessTypeA) and 1 higher priority workerProcessTypeA");
+		kprintf("\n In lab2q4t5 test | Note: 3 (workerProcessTypeA) and 1 higher priority workerProcessTypeA");
 		kprintf("\n (Monitor process will have higher priority than workerProcessTypeA) ");
 		kprintf("\n -------------------------\n");
 		pid32 wp1 = create(workerProcessTypeA, 1024, 54, "Worker Proc1", 0, NULL);

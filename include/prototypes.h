@@ -306,6 +306,18 @@ extern void lab2q4t2(void);
 /* in file lab2q4.c */
 extern void lab2q4t3(void);
 
+/* in file lab2q4.c*/
+extern void lab2q4t4(void);
+
+/* in file lab2q4.c*/
+extern void lab2q4t5(void);
+
+/* in file lab2q4.c */
+extern void lab2q4t6(void);
+
+/* in file lab2q5.c */
+extern void lab2q5t1(void);
+
 /* in file lexan.c */
 extern	int32	lexan(char *, int32, char *, int32 *, int32 [], int32 []);
 

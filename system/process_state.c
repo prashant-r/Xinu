@@ -17,18 +17,18 @@ struct	procent	*prptr;		/* pointer to process		*/
 
 	/* Print header for items from the process table */
 
-	kprintf("%3s %-16s %5s %4s %4s %10s %-10s %10s %6s %16s\n",
+	kprintf("%3s %-16s %5s %4s %4s %10s %-10s %10s %6s %11s %8s\n",
 		   "Pid", "Name", "State", "Prio", "Ppid", "Stack Base",
-		   "Stack Ptr", "Stack Size", "CPU time", "ReadyQ Posn");
+		   "Stack Ptr", "Stack Size", "CPU time", "ReadyQ Posn", "ReadyQ Key");
 
-	kprintf("%3s %-16s %5s %4s %4s %10s %-10s %10s %10s %12s\n",
+	kprintf("%3s %-16s %5s %4s %4s %10s %-10s %10s %10s %12s %8s\n",
 		   "---", "----------------", "-----", "----", "----",
-		   "----------", "----------", "----------", "----------", "------------");
+		   "----------", "----------", "----------", "----------", "------------","------------");
 
 	/* Output information for each process */
 
 	int32 readyListPosition[NPROC]= {[0 ... NPROC-1] = -1};
-
+	int32 readyListKey[NPROC]= {[0 ... NPROC-1] = MAX_INT32};
 	qid16	curr;			/* Runs through items in a queue*/
 	qid16	prev;			/* Holds previous node index	*/
 
@@ -37,6 +37,7 @@ struct	procent	*prptr;		/* pointer to process		*/
 	while (curr != queuetail(readylist)) {
 		prptr = &proctab[curr];
 		readyListPosition[curr] = counter++;
+		readyListKey[curr] = queuetab[curr].qkey;
 		curr = queuetab[curr].qnext;
 	}
 
@@ -52,7 +53,8 @@ struct	procent	*prptr;		/* pointer to process		*/
 		if(readyListPosition[i] ==-1)
 			kprintf("\n");
 		else
-			kprintf("%12d\n", readyListPosition[i]);
+			kprintf("%12d  %8d\n", readyListPosition[i], readyListKey[i]);
+
 	}
 	return 0;
 }
