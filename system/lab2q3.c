@@ -1,5 +1,5 @@
 /*
- * lab2q3.c
+ * lab2q3.c - lab2q3t1, lab2q3t2, lab2q3t3, lab2q3t4
  *
  *  Created on: Feb 13, 2016
  *      Author: prashantravi
@@ -22,7 +22,10 @@ void lab2q3t1()
 		kprintf("\n Clock time in milliseconds since boot is %d", clktimemsec);
 		return;
 }
-
+/*------------------------------------------------------------------------
+ *  lab2q3t2 - tests if all the processes share the cpu if the priorities are the same.
+ *------------------------------------------------------------------------
+ */
 void lab2q3t2()
 {
 		kprintf("\n -------------------------");
@@ -36,7 +39,10 @@ void lab2q3t2()
 		resume(create(monitorProcess, 1024, 57, "Monitor Proc", 5, wp1,wp2,wp3,wp4,245));
 		return;
 }
-
+/*------------------------------------------------------------------------
+ *  lab2q3t3 - tests if a process that sleeps often, in other word, iobound,  gets equal time share as ones that don't and are classified as cpubound.
+ *------------------------------------------------------------------------
+ */
 void lab2q3t3()
 {
 		kprintf("\n -------------------------");
@@ -51,6 +57,12 @@ void lab2q3t3()
 		return;
 }
 
+/*------------------------------------------------------------------------
+ *  lab2q3t4 - tests if higher priority process hogs the cpu over the lower priority ones.
+ *
+ *
+ *------------------------------------------------------------------------
+ */
 void lab2q3t4()
 {
 		kprintf("\n -------------------------");
@@ -64,7 +76,11 @@ void lab2q3t4()
 		resume(create(monitorProcess, 1024, 57, "Monitor Proc", 5, wp1,wp2,wp3,wp4,375));
 		return;
 }
-
+/*------------------------------------------------------------------------
+ *  workerProcessType - dispatched by the monitor process who has a higher priority than
+ *  					any other worker process. Runs in an infinite loop.
+ *------------------------------------------------------------------------
+ */
 process workerProcessTypeA()
 {
 	while(TRUE)
@@ -73,7 +89,11 @@ process workerProcessTypeA()
 	}
 	return OK;
 }
-
+/*------------------------------------------------------------------------
+ *  workerProcessTypeB - this worker process is also dispatched by the monitor process and simulates
+ *  					 a process that sleeps often and in turn relinquishes the processor often.
+ *------------------------------------------------------------------------
+ */
 process workerProcessTypeB()
 {
 
@@ -89,7 +109,14 @@ process workerProcessTypeB()
 	return OK;
 }
 
-
+/*------------------------------------------------------------------------
+ *  monitorProcess - this process dispatches worker processes and has higher priority than any of the workers.
+ *  				 So after a time interval during which it sleeps, it will gain complete access of the CPU and meanwhile
+ *  				 the worker processes get an opportunity to execute. Prints the process status on waking up
+ *  				 and then is responsible for killing the dispatched worker processes after the output from
+ *  				 process state is visible to tester.
+ *------------------------------------------------------------------------
+ */
 process monitorProcess(pid32 wp1,pid32 wp2, pid32 wp3, pid32 wp4, int time)
 {
 	resume(wp1);

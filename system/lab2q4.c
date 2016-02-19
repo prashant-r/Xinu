@@ -8,6 +8,12 @@
 #include <xinu.h>
 #include <stdio.h>
 
+/*------------------------------------------------------------------------
+ *  lab2q4t1 - tests with 6 cpubound processes of same loop1 and loop2 values
+ *  			Intermittently prints process state.
+ *
+ *------------------------------------------------------------------------
+ */
 void lab2q4t1()
 {
 
@@ -33,7 +39,12 @@ void lab2q4t1()
 		}
 
 }
-
+/*------------------------------------------------------------------------
+ *  lab2q4t2 - tests with 6 iobound processes of varying loop1 and loop2 values
+ *  		   Intermittently prints process state.
+ *
+ *------------------------------------------------------------------------
+ */
 void lab2q4t2()
 {
 		pid32 a,b,c,d,e,f;
@@ -57,6 +68,14 @@ void lab2q4t2()
 						}
 			}
 }
+
+/*------------------------------------------------------------------------
+ *  lab2q4t3 - tests with 3 iobound processes of varying loop1 and loop2 values
+ *  		   along with 3 cpubound processes.
+ *  		   Intermittently prints process state.
+ *
+ *------------------------------------------------------------------------
+ */
 void lab2q4t3()
 {
 		pid32 a,b,c,d,e,f;
@@ -80,7 +99,10 @@ void lab2q4t3()
 			}
 		}
 }
-
+/*------------------------------------------------------------------------
+ *  lab2q4t4 - tests if all the processes share the cpu if the priorities are the same.
+ *------------------------------------------------------------------------
+ */
 void lab2q4t4()
 {
 		kprintf("\n -------------------------");
@@ -94,7 +116,10 @@ void lab2q4t4()
 		resume(create(monitorProcess, 1024, 57, "Monitor Proc", 5, wp1,wp2,wp3,wp4,245));
 		return;
 }
-
+/*------------------------------------------------------------------------
+ *  lab2q4t5 - tests if a process that sleeps often, in other word, iobound,  gets equal time share as ones that don't and are classified as cpubound.
+ *------------------------------------------------------------------------
+ */
 void lab2q4t5()
 {
 		kprintf("\n -------------------------");
@@ -108,7 +133,11 @@ void lab2q4t5()
 		resume(create(monitorProcess, 1024, 57, "Monitor Proc", 5, wp1,wp2,wp3,wp4,375));
 		return;
 }
-
+/*------------------------------------------------------------------------
+ *  lab2q4t6 - tests if higher priority process hogs the cpu over the lower priority ones.
+ *
+ *------------------------------------------------------------------------
+ */
 void lab2q4t6()
 {
 		kprintf("\n -------------------------");

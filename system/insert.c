@@ -17,11 +17,11 @@ status	insert(
 
 	if(isbadpid(pid))
 	{
-		kprintf("\n Somehting went wrong BAD PID \n");
+		kprintf("\n BAD PID \n");
 		return SYSERR;
 	}
 	if (isbadqid(q)) {
-		kprintf("\n Somehting went wrong BAD QID \n");
+		kprintf("\n BAD QID \n");
 		return SYSERR;
 	}
 

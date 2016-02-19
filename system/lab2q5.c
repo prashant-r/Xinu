@@ -16,7 +16,14 @@
 #include <xinu.h>
 #include <stdio.h>
 
-
+/*------------------------------------------------------------------------
+ *  lab2q5t1 - tests with 6 cpubound processes of same loop1 and loop2 values to check
+ *  		   if long standing processes get significant priority demotion or does our
+ *  		   dynamic wokrload algorithm solve starvation problem for such processes.
+ *  		   Intermittently prints process state.
+ *
+ *------------------------------------------------------------------------
+ */
 void lab2q5t1()
 {
 	pid32 a,b,c,d,e,f;

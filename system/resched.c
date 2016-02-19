@@ -1,4 +1,4 @@
-/* resched.c - resched, resched_cntl */
+/* resched.c - resched, resched_cntl, reward_ready_waiting */
 
 #include <xinu.h>
 
@@ -32,8 +32,18 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 	// force it to only execute if no other process is ready
 	if(currpid != 0)
 		ptold->prcpumsec = ptold->prcpumsec +  addToTotalTime;
+
+	// totest switches the key for the readylist queue to be tested based on the lab we are running.
+	// For the lab3, its the priority of the process
+	// and for lab 4 and 5 it's the prcpumsec, the cpu time given to the process
 	int32 totest = ptold->prprio;
 
+
+	// Here the totest will be set to the negation of prcpumsec
+	// because we wan't to maintain using the insert function that
+	// inserts elements in decreasing order. By this negation of prcpumsec would
+	// cause the element with the least prcpumsec to be the first to be dequeud at the head.
+	// Hence, we are followin the rules of the dynamic priority scheduling algorithm
 	if(lab2flag == 4 || lab2flag == 5)
 		totest =-(int32)ptold->prcpumsec;
 
@@ -46,14 +56,24 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 			}
 
 			/* Old process will no longer remain current */
+
+
 			if(lab2flag == 5)
 				reward_ready_waiting();
 			ptold->prstate = PR_READY;
+			// The only other place an insert happens is at the ready method
+			// even there we have chosen to implement a similar strategy of choosing the value
+			// of key based on the lab that we are dealing with. That is, either to insert
+			// based on priority or the negation of the prcpumsec spent.
 			insert(currpid, readylist, totest);
 			currpid = dequeue(readylist);
 		}
 	else
 	{
+		//even if the process is in sleep state and calling a reschedule
+		// we must reward the other processes
+		// of course, as soon as the process that is dequeued is removed its key value
+		// would also
 		if(lab2flag ==5)
 			reward_ready_waiting();
 		currpid = dequeue(readylist);
@@ -62,13 +82,22 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
 	preempt = QUANTUM;		/* Reset time slice for process	*/
-	//Update the context switch in time for new process
+	//Update the context switch-in time for new process
 	ptnew->prctxswintime = currTime;
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
 	/* Old process returns here when resumed */
 	return;
 }
-
+/*------------------------------------------------------------------------
+ *  reward_ready_waiting  -  this method promotes all the processes on the readylist by giving them each an
+ *  						 increment of 6ms to their keys. We do this so that a process that has been waiting for a long time
+ *  						 would at least get a chance to execute if it had executed the cpu for a long time.
+ *							 All processes in this ready list are processes that were not selected in this run of resched
+ *							 as the next process to execute, despite being ready. Hence, this loss of opportunity is
+ *							 defined as waiting in our context.
+ *
+ *------------------------------------------------------------------------
+ */
 void reward_ready_waiting()
 {
 	qid16	curr;			/* Runs through items in a queue*/
@@ -78,6 +107,7 @@ void reward_ready_waiting()
 	curr = firstid(readylist);
 	while (curr != queuetail(readylist)) {
 			prptr = &proctab[curr];
+			// don't promote prnull process
 			if(curr!=0)
 				queuetab[curr].qkey +=6;
 			curr = queuetab[curr].qnext;
