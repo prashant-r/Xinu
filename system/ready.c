@@ -24,11 +24,17 @@ status	ready(
 	// if process is ready then it must have woken up from sleep
 	// or have been just resumed. Hence we add it to the ready list based  on
 	// the scheduling strategies that we have implemented in this lab
+	if(lab2){
 	if(lab2flag == 4 || lab2flag == 5)
 		insert(pid, readylist, -(int32)prptr->prcpumsec);
 	else
 		insert(pid, readylist, prptr->prprio);
+	}
+	else{
+		//printMFQ();
+		enqueue(pid, queueArr[prptr->prprio]);
 
+	}
 	resched();
 
 	return OK;

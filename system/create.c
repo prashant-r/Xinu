@@ -43,7 +43,14 @@ pid32	create(
 
 	/* Initialize process table entry for new process */
 	prptr->prstate = PR_SUSP;	/* Initial state is suspended	*/
-	prptr->prprio = priority;
+
+	if(strcmp(name, "prnull") == 0)
+	{
+		// its the null process
+		prptr->prprio = 0;
+	}
+	else
+		prptr->prprio = 10;
 	prptr->prstkbase = (char *)saddr;
 	prptr->prstklen = ssize;
 	prptr->prname[PNMLEN-1] = NULLCH;

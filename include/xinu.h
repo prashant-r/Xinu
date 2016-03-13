@@ -40,3 +40,5 @@
 #include <multiboot.h>
 #include <stdio.h>
 #include <string.h>
+#include <ts_disptb.h>
+#include <multilevelfbq.h>

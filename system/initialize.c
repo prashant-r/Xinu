@@ -20,6 +20,10 @@ extern	void xdone(void);	/* System "shutdown" procedure		*/
 static	void sysinit(); 	/* Internal system initialization	*/
 extern	void meminit(void);	/* Initializes the free memory list	*/
 
+/* ts queue array */
+qid16 queueArr[INITSIZE];
+
+
 /* Declarations of major kernel variables */
 
 struct	procent	proctab[NPROC];	/* Process table			*/
@@ -49,54 +53,59 @@ void	nulluser()
 {	
 	struct	memblk	*memptr;	/* Ptr to memory block		*/
 	uint32	free_mem;		/* Total amount of free memory	*/
-	
 	/* Initialize the system */
-		
+
 	sysinit();
 
 	kprintf("\n\r%s\n\n\r", VERSION);
-	
+
 	/* Output Xinu memory layout */
 	free_mem = 0;
 	for (memptr = memlist.mnext; memptr != NULL;
-						memptr = memptr->mnext) {
+			memptr = memptr->mnext) {
 		free_mem += memptr->mlength;
 	}
 	kprintf("%10d bytes of free memory.  Free list:\n", free_mem);
 	for (memptr=memlist.mnext; memptr!=NULL;memptr = memptr->mnext) {
-	    kprintf("           [0x%08X to 0x%08X]\r\n",
-		(uint32)memptr, ((uint32)memptr) + memptr->mlength - 1);
+		kprintf("           [0x%08X to 0x%08X]\r\n",
+				(uint32)memptr, ((uint32)memptr) + memptr->mlength - 1);
 	}
 
 	kprintf("%10d bytes of Xinu code.\n",
-		(uint32)&etext - (uint32)&text);
+			(uint32)&etext - (uint32)&text);
 	kprintf("           [0x%08X to 0x%08X]\n",
-		(uint32)&text, (uint32)&etext - 1);
+			(uint32)&text, (uint32)&etext - 1);
 	kprintf("%10d bytes of data.\n",
-		(uint32)&ebss - (uint32)&data);
+			(uint32)&ebss - (uint32)&data);
 	kprintf("           [0x%08X to 0x%08X]\n\n",
-		(uint32)&data, (uint32)&ebss - 1);
+			(uint32)&data, (uint32)&ebss - 1);
+
+
+
 
 	/*
 	 * Print the welcome message
 	 */
 
 	resume(create(mywelcomemsg,1024,49,"welcome",0,NULL));
+
 	/* Enable interrupts */
 
 	enable();
 
+
 	/* Create a process to execute function main() */
 
 	resume (
-	   create((void *)main, INITSTK, INITPRIO, "Main process", 0,
-           NULL));
+			create((void *)main, INITSTK, INITPRIO, "Main process", 0,
+					NULL));
 
 	/* Become the Null process (i.e., guarantee that the CPU has	*/
 	/*  something to run when no other process is ready to execute)	*/
 	idle();
 
 }
+
 /*------------------------------------------------------------------------
  *
  * sysinit  -  Initialize all Xinu data structures and devices
@@ -116,9 +125,9 @@ static	void	sysinit()
 	/* Initialize the interrupt vectors */
 
 	initevec();
-	
+
 	/* Initialize free memory list */
-	
+
 	meminit();
 
 	/* Initialize system variables */
@@ -157,7 +166,7 @@ static	void	sysinit()
 		prptr->prcpumsec = 0;
 	prptr->prctxswintime = 0;
 	currpid = NULLPROC;
-	
+
 	/* Initialize semaphores */
 
 	for (i = 0; i < NSEM; i++) {
@@ -166,6 +175,7 @@ static	void	sysinit()
 		semptr->scount = 0;
 		semptr->squeue = newqueue();
 	}
+
 
 	/* Initialize buffer pools */
 
@@ -177,11 +187,23 @@ static	void	sysinit()
 
 	/* Initialize the real time clock */
 
-	clkinit();
 
+	/* Display the dispatch table */
+	int row = 0;
+	kprintf("--------------------------Dispatch Table Looks Like------------------------------\n");
+	for(row = 0;row < 20;row++){
+		kprintf("Level no. %d is| tqexp is %d | slpret is %d | quantum is %d \n",row, tsdtab[row].ts_tqexp,tsdtab[row].ts_slpret,tsdtab[row].ts_quantum);//printed out table
+	}
+
+	// Initialize the queue array structure that maintains the queue at each level
+	for (row =0 ; row <20; row++)
+		queueArr[row] = newqueue();
+	clkinit();
 	for (i = 0; i < NDEVS; i++) {
 		init(i);
 	}
+
+
 	return;
 }
 

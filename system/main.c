@@ -5,50 +5,16 @@
 
 /* global variable */
 
-int lab2flag=4;
+bool8 lab2 = FALSE;
+int lab2flag=0;
+
 process	main(void)
 {
 
-	if(lab2flag == 3){
-	//LAB 2.3
-	resume(create(lab2q3t1, 1024, 51, "clockmstest", 0, NULL));
-	sleepms(6000);
-	resume(create(lab2q3t2,1024,52, "cputimetest1",0, NULL));
-	sleepms(6000);
-	resume(create(lab2q3t3,1024,52, "cputimetest2",0, NULL));
-	sleepms(6000);
-	resume(create(lab2q3t4,1024,52, "cputimetest3",0, NULL));
-	sleepms(3000);
-	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
-	}
-	else if(lab2flag == 4)
-	{
 	//LAB 2.4.2
-	kprintf("\n -- LAB 2.4.2 --- \n");
-	resume(create(lab2q4t4,1024,52, "cputimetest1",0, NULL));
-	sleepms(3000);
-	resume(create(lab2q4t5,1024,52, "cputimetest2",0, NULL));
-	sleepms(3000);
-	resume(create(lab2q4t6,1024,52, "cputimetest3",0, NULL));
-	sleepms(3000);
-	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
-	//LAB 2.4.3.1
-	//kprintf("\n -- LAB 2.4.2 --- \n");
-	lab2q4t1();
-	lab2q4t2();
 	lab2q4t3();
-
-	}
-	else if(lab2flag == 5)
-	{
-			//LAB 2.5
-			kprintf("\n -- LAB 2.5 --- \n");
-			lab2q5t1();
-			resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
-	}
-	else{
-	kprintf("Must set LAB2FLAG to 3/4/5 in main.c");
-	}
+	sleepms(7000);
+	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
 	/* Wait for shell to exit and recreate it */
 	return OK;
 }

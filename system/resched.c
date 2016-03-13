@@ -9,6 +9,119 @@ struct	defer	Defer;
  */
 void	resched(void)		/* Assumes interrupts are disabled	*/
 {
+	if(lab2)
+		resched_lab2();
+	else
+	{
+		resched_lab3();
+	}
+}
+/* ------------------------------------------------------------------------
+ * resched_lab3 -  Multi-feedback queue will now be the default scheduler going forward
+ *				   This is the scheduler from lab3 that achieves constant time dequeue
+ *				   since the size of the levels in the dispatch table is a fixed number
+ *-------------------------------------------------------------------------
+ */
+void resched_lab3(void)
+{
+	uint32 currTime = clktimemsec;
+	struct procent *ptold;	/* Ptr to table entry for old process	*/
+	struct procent *ptnew;	/* Ptr to table entry for new process	*/
+
+	/* If rescheduling is deferred, record attempt and return */
+
+	if (Defer.ndefers > 0) {
+		Defer.attempt = TRUE;
+		return;
+	}
+
+	/* Point to process table entry for the current (old) process */
+	uint32 addToTotalTime =0;
+	/* Point to process table entry for the current (old) process */
+	ptold = &proctab[currpid];
+	//Update the total processing time for context switched out process
+	// Handle the case where the counter overflows then get the absolute value of difference
+	addToTotalTime = (currTime)-(ptold->prctxswintime);
+
+	ptold->prcpumsec = ptold->prcpumsec +  addToTotalTime;
+
+	ptold = &proctab[currpid];
+
+	if (ptold->prstate == PR_CURR) {
+
+		// update the priority based on TS dispatch table values for active process's time quantum expiration scenario
+		ptold->prprio = tsdtab[ptold->prprio].ts_tqexp;
+
+		// cpu- intensive process
+		if(currproc_eligible()) // check eligibility of current process to get another quantum
+			{
+				ptold->prctxswintime = currTime;
+				return;
+			}
+		else
+		{
+			// current process will be switched out
+			// enqueu at correct location for when next time it may be selected
+			// by scheduler it will be at correct level on multi-level feedback queue.
+			ptold->prstate = PR_READY;
+			enqueue(currpid, queueArr[ptold->prprio]);
+		}
+
+	}
+	else if (ptold->prstate == PR_SLEEP)
+	{
+		// io- intensive process
+
+		// update the priority based on TS dispatch table values for sleep return
+		ptold->prprio = tsdtab[ptold->prprio].ts_slpret;
+
+	}
+
+	/* Force context switch to highest priority ready process */
+
+	currpid = multifeedbackDQ();
+	ptnew = &proctab[currpid];
+	ptnew->prstate = PR_CURR;
+	ptnew->prctxswintime = currTime;
+	preempt = tsdtab[ptnew->prprio].ts_quantum;		/* Reset time slice for process	*/
+	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
+
+	/* Old process returns here when resumed */
+
+	return;
+}
+/*--------------------------------------------------------------
+ * currproc_eligible -  checks if the current process is still eligible
+ * 						for another time quantum or if it's time for a new process to
+ * 						be elected
+ *--------------------------------------------------------------
+ */
+
+bool8 currproc_eligible()
+{
+	struct procent *ptold;	/* Ptr to table entry for old process	*/
+	ptold = &proctab[currpid];
+	int highestLevel;
+	for (highestLevel = 19; highestLevel>=0; highestLevel --)
+	{
+		if(!isempty(queueArr[highestLevel]))
+		{
+			if(ptold->prprio> highestLevel)
+				return TRUE;
+			else
+				return FALSE;
+		}
+	}
+	return FALSE;
+}
+
+/*------------------------------------------------------------------------
+ *  resched_lab2  -  fair scheduler from lab2, need to set lab2flag according to specs
+ *  				 given in lab2 documentation on 503 course website.
+ *------------------------------------------------------------------------
+ */
+void resched_lab2(void)
+{
 	uint32 currTime = clktimemsec;
 	struct procent *ptold;	/* Ptr to table entry for old process	*/
 	struct procent *ptnew;	/* Ptr to table entry for new process	*/
@@ -87,6 +200,7 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
 	/* Old process returns here when resumed */
 	return;
+
 }
 /*------------------------------------------------------------------------
  *  reward_ready_waiting  -  this method promotes all the processes on the readylist by giving them each an

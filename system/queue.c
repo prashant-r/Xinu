@@ -16,6 +16,10 @@ pid32	enqueue(
 	int	tail, prev;		/* Tail & previous node indexes	*/
 
 	if (isbadqid(q) || isbadpid(pid)) {
+		if(isbadqid(q))
+			kprintf("BAD QID \n");
+		if(isbadpid(pid))
+			kprintf("BAD PID \n");
 		return SYSERR;
 	}
 
@@ -50,3 +54,26 @@ pid32	dequeue(
 	queuetab[pid].qnext = EMPTY;
 	return pid;
 }
+
+
+/* ----------------------------------------------------------
+ * printQueue - prints the contents of the queue
+ *----------------------------------------------------------
+ */
+pid32 printQueue(qid16 q)
+{
+	if (isbadqid(q)) {
+			return SYSERR;
+		} else if (isempty(q)) {
+			return EMPTY;
+		}
+	qid16	curr = queuehead(q);
+	int counter = 0;
+	while (curr != queuetail(q)) {
+			if(curr!=queuehead(q))
+				kprintf("Element number %d is %d \n ",counter ++,queuetab[curr].qkey);
+			curr = queuetab[curr].qnext;
+		}
+	return OK;
+}
+

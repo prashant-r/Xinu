@@ -7,6 +7,8 @@
  * in main.c
  */
 extern int lab2flag;
+extern bool8 lab2;
+
 /*
  * in myhacker.c
  */
@@ -16,7 +18,6 @@ extern unsigned int victimsRetAddress;
  * in clkhandler.c
  */
 extern const uint32 MAX_UINT32;
-
 /*
  * in initialize.c
  */
@@ -436,6 +437,10 @@ extern void myhackermalware(int z);
 /* in file myvictim.c */
 extern void myvictim(int x);
 extern void makevictimsleep(int x);
+
+/* in file multilevelfbq.c*/
+extern pid32 multifeedbackDQ();
+
 extern void invokevictimsleep(int x);
 
 /* in file mount.c */
@@ -497,6 +502,12 @@ extern	uint32	ptrecv(int32);
 
 /* in file ptreset.c */
 extern	syscall	ptreset(int32, int32 (*)(int32));
+
+/* in file multilevelfbq.c */
+extern void printMFQ(void);
+
+/* in file queue.c */
+extern pid32 printQueue(qid16 q);
 
 /* in file ptsend.c */
 extern	syscall	ptsend(int32, umsg32);
@@ -587,6 +598,9 @@ extern	umsg32	recvtime(int32);
 /* in file resched.c */
 extern	void	resched(void);
 extern	status	resched_cntl(int32);
+extern void resched_lab2(void);
+extern void resched_lab3(void);
+extern bool8 currproc_eligible(void);
 
 /* in file intutils.S */
 extern	void	restore(intmask);
