@@ -55,7 +55,8 @@ pid32	create(
 	prptr->prstklen = ssize;
 	prptr->prname[PNMLEN-1] = NULLCH;
 	prptr->prcpumsec =1;
-
+	prptr->sndflag = FALSE;
+	prptr->senderq = mynewqueue();
 	for (i=0 ; i<PNMLEN-1 && (prptr->prname[i]=name[i])!=NULLCH; i++)
 		;
 	prptr->prsem = -1;

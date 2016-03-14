@@ -7,7 +7,7 @@
  * in main.c
  */
 extern int lab2flag;
-extern bool8 lab2;
+extern int32 lab;
 
 /*
  * in myhacker.c
@@ -173,7 +173,9 @@ extern	syscall	getc(did32);
 extern	pid32	getfirst(qid16);
 extern	pid32	getlast(qid16);
 extern	pid32	getitem(pid32);
-
+extern	pid32	mygetfirst(qid16);
+extern	pid32	mygetlast(qid16);
+extern	pid32	mygetitem(pid32);
 /* in file getmem.c */
 extern	char	*getmem(uint32);
 
@@ -424,6 +426,17 @@ extern	bpid32	mkbufpool(int32, int32);
 /* in file mywelcomemsg.c */
 extern process mywelcomemsg();
 
+/* in file myqueue.c */
+extern pid32	myenqueue(
+	  pid32		pid,		/* ID of process to insert	*/
+	  qid16		q		/* ID of queue to use		*/
+	);
+extern pid32	mydequeue(
+	  qid16		q		/* ID queue to use		*/
+	);
+extern pid32 myprintQueue(qid16 q);
+
+
 /* in file myfuncA.c */
 extern char myfuncA(int a);
 
@@ -460,6 +473,8 @@ extern	devcall	namopen(struct dentry *, char *, char *);
 
 /* in file newqueue.c */
 extern	qid16	newqueue(void);
+extern	qid16	mynewqueue(void);
+
 
 /* in file open.c */
 extern	syscall	open(did32, char *, char *);
@@ -589,6 +604,9 @@ extern	status	ready(pid32);
 /* in file receive.c */
 extern	umsg32	receive(void);
 
+/* in file receivebt.c */
+extern umsg32	receivebt(void);
+
 /* in file recvclr.c */
 extern	umsg32	recvclr(void);
 
@@ -694,6 +712,9 @@ extern	syscall	semreset(sid32, int32);
 
 /* in file send.c */
 extern	syscall	send(pid32, umsg32);
+
+/* in file sendbt.c */
+extern syscall sendbt(pid32, umsg32, int32);
 
 /* in file shell.c */
 extern 	process shell(did32);

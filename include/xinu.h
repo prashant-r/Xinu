@@ -4,6 +4,7 @@
 #include <conf.h>
 #include <process.h>
 #include <queue.h>
+#include <myqueue.h>
 #include <resched.h>
 #include <mark.h>
 #include <semaphore.h>

@@ -9,11 +9,17 @@ struct	defer	Defer;
  */
 void	resched(void)		/* Assumes interrupts are disabled	*/
 {
-	if(lab2)
+	if(lab == 2)
+	{
 		resched_lab2();
-	else
+	}
+	else if (lab == 3)
 	{
 		resched_lab3();
+	}
+	else
+	{
+		resched_lab1();
 	}
 }
 /* ------------------------------------------------------------------------
@@ -202,6 +208,53 @@ void resched_lab2(void)
 	return;
 
 }
+
+
+/*------------------------------------------------------------------------
+ *  resched_lab1  -  Reschedule processor to highest priority eligible process
+ *------------------------------------------------------------------------
+ */
+void	resched_lab1(void)		/* Assumes interrupts are disabled	*/
+{
+	struct procent *ptold;	/* Ptr to table entry for old process	*/
+	struct procent *ptnew;	/* Ptr to table entry for new process	*/
+
+	/* If rescheduling is deferred, record attempt and return */
+
+	if (Defer.ndefers > 0) {
+		Defer.attempt = TRUE;
+		return;
+	}
+
+	/* Point to process table entry for the current (old) process */
+
+	ptold = &proctab[currpid];
+
+	if (ptold->prstate == PR_CURR) {  /* Process remains eligible */
+		if (ptold->prprio > firstkey(readylist)) {
+			return;
+		}
+
+		/* Old process will no longer remain current */
+
+		ptold->prstate = PR_READY;
+		insert(currpid, readylist, ptold->prprio);
+	}
+
+	/* Force context switch to highest priority ready process */
+
+	currpid = dequeue(readylist);
+	ptnew = &proctab[currpid];
+	ptnew->prstate = PR_CURR;
+	preempt = QUANTUM;		/* Reset time slice for process	*/
+	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
+
+	/* Old process returns here when resumed */
+
+	return;
+}
+
+
 /*------------------------------------------------------------------------
  *  reward_ready_waiting  -  this method promotes all the processes on the readylist by giving them each an
  *  						 increment of 6ms to their keys. We do this so that a process that has been waiting for a long time
