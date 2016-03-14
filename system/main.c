@@ -5,8 +5,8 @@
 
 /* global variable */
 
-int32 lab = 2 ;
-int lab2flag=5;
+int32 lab = 3 ;
+int lab2flag=0;
 
 process testReceive(void) {
 	while(TRUE) {

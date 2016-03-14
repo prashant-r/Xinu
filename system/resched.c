@@ -49,6 +49,7 @@ void resched_lab3(void)
 	// Handle the case where the counter overflows then get the absolute value of difference
 	addToTotalTime = (currTime)-(ptold->prctxswintime);
 
+
 	ptold->prcpumsec = ptold->prcpumsec +  addToTotalTime;
 
 	ptold = &proctab[currpid];
@@ -56,7 +57,9 @@ void resched_lab3(void)
 	if (ptold->prstate == PR_CURR) {
 
 		// update the priority based on TS dispatch table values for active process's time quantum expiration scenario
-		ptold->prprio = tsdtab[ptold->prprio].ts_tqexp;
+
+		if(currpid != 0)
+			ptold->prprio = tsdtab[ptold->prprio].ts_tqexp;
 
 		// cpu- intensive process
 		if(currproc_eligible()) // check eligibility of current process to get another quantum
@@ -79,7 +82,8 @@ void resched_lab3(void)
 		// io- intensive process
 
 		// update the priority based on TS dispatch table values for sleep return
-		ptold->prprio = tsdtab[ptold->prprio].ts_slpret;
+		if(currpid != 0)
+			ptold->prprio = tsdtab[ptold->prprio].ts_slpret;
 
 	}
 
