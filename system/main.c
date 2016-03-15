@@ -8,54 +8,44 @@
 int32 lab = 3 ;
 int lab2flag=0;
 
-process testReceive(void) {
-	while(TRUE) {
-		kprintf("Receive");
-		umsg32 testreceive = receivebt();
-		kprintf("\nRECEIVED: %s  \n", testreceive);
-		sleepms(200);
-	}
-	return OK;
-}
-
-void testASender(pid32 receiver, umsg32 msg, int32 delay) {
-
-	int result = sendbt(receiver, msg,delay);
-	if( result == SYSERR ) {
-		kprintf("Message failed SYSERR for pid %d with message %s\r\n", currpid, msg);
-	}
-	else if(result == TIMEOUT){
-		kprintf("Message failed TIMEOUT for pid %d with message %s\r\n",currpid, msg);
-	}
-	else if(result == OK) {
-		kprintf("Send succeeded for pid %d with message %s\r\n",currpid, msg);
-	}
-	else
-	{
-		kprintf("Unknown response for pid %d with message %s \r\n", currpid, msg);
-	}
-	return;
-}
-
 process	main(void)
 {
 
-	//LAB 2.4.2
-	//lab2q4t3();
+	// NOTE: to test out either lab make sure to set lab variable
+	// Comment out the lab code corresponding to lab 3.3 / 3.4 for easy viewing on console to test
+	// lab results for each part of the lab separately. Thanks!
+
+//*************************************************************************************
+	//LAB 3.3.3-3.3.4
+	kprintf("\n -- LAB 3.3 --- \n");
+
+	kprintf("ALL CPU BOUND PROCESSES! \n");
+	sleepms(2000);
+	lab3q3t1();
+	kprintf("ALL IO BOUND PROCESSES! \n");
+	sleepms(5000);
+	lab3q3t2();
+	kprintf("MIX BOUND PROCESSES! \n");
+	sleepms(5000);
+	lab3q3t3();
 
 
-	int testAReceive = create(testReceive, 2048, 20, "testAsynchronousReceive", 0);
-	int testASend1 = create(testASender, 2048, 20, "testAsynchronousSend", 3, testAReceive, "hello", 1000);
-	int testASend2 = create(testASender, 2048, 20, "testAsynchronousSend", 3, testAReceive, "how", 500);
-	int testASend3 = create(testASender, 2048, 20, "testAsynchronousSend", 3, testAReceive, "are", 400);
-	int testASend4 = create(testASender, 2048, 20, "testAsynchronousSend", 3, testAReceive, "you?", 2000);
-	resume(testASend1);
-	resume(testASend2);
-	resume(testASend3);
-	resume(testASend4);
-	resume(testAReceive);
+	sleepms(2000);
+//*************************************************************************************
+	// LAB 3.4
+
+
+	kprintf("\n -- LAB 3.4 --- \n");
+
+
+
+	lab3q4_AllTests();
+
+
+//*************************************************************************************
 	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
 	/* Wait for shell to exit and recreate it */
+
 	while(TRUE)
 	{
 

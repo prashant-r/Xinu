@@ -30,13 +30,13 @@ syscall	sendbt(
 		restore(mask);
 		return SYSERR;
 	}
-	kprintf(" %d pid is sending request \n", currpid);
-	kprintf("Is the receiver's buffer full %d maxwait %d \n", prptr->prhasmsg, maxwait);
 	// receiver's send buffer is full
 	if(prptr->prhasmsg)
 	{
 		prsmgptr->sndmsg = msg;
 		prsmgptr->sndflag = TRUE;
+		// if dealing with maxwait =0 then continue to normal blocking
+		// algorithm that won't wake up due to clock timer.
 		if(maxwait > 0)
 			if (insertd(currpid,sleepq,maxwait) == SYSERR)
 			{
@@ -50,7 +50,7 @@ syscall	sendbt(
 		{
 			if(maxwait > 0) // check is not necessary but do it anyway
 			{
-				kprintf(" send request timed out must drop message \n");
+				kprintf(" Send request timed out must drop message for %d \n", currpid);
 				// send request timed out must drop the message
 				mygetitem(currpid);
 				prsmgptr->sndflag = FALSE;
@@ -60,7 +60,7 @@ syscall	sendbt(
 		}
 		else
 		{
-			kprintf(" request buffer cleared up ! \n");
+			kprintf(" Request buffer cleared up for %d ! \n", currpid);
 		}
 	}
 	// receiver's send buffer is empty

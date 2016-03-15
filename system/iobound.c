@@ -20,7 +20,7 @@ void iobound(uint32 LOOP1, uint32 LOOP2)
 	for (i=0; i<LOOP1; i++) {
 	  for (j=0; j<LOOP2; j++) {
 
-		  sleepms(20);
+		  sleepms(28);
 
 	  }
 	  // Using kprintf print the pid followed the outer loop count i,

@@ -54,13 +54,18 @@ void resched_lab3(void)
 
 	ptold = &proctab[currpid];
 
+	pri16 oldprio = ptold->prprio;
+
 	if (ptold->prstate == PR_CURR) {
 
 		// update the priority based on TS dispatch table values for active process's time quantum expiration scenario
-
+		pri16 oldprio = ptold->prprio;
+		int timegiven = tsdtab[oldprio].ts_quantum;
 		if(currpid != 0)
-			ptold->prprio = tsdtab[ptold->prprio].ts_tqexp;
+		{
+				ptold->prprio = tsdtab[oldprio].ts_tqexp;
 
+		}
 		// cpu- intensive process
 		if(currproc_eligible()) // check eligibility of current process to get another quantum
 			{
