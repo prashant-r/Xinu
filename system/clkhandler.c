@@ -17,7 +17,8 @@ void	clkhandler()
 	// increment the clktimemsec since it has
 	clktimemsec++;
 
-
+	// LAB 4Q3 : The xcpu time being decremented on each clock interrupt that a process also found itself
+	// to be the current process.
 	struct procent *prptr = &proctab[currpid];
 	if (prptr->xcpufunc!= NULL) {
 			prptr->xcputime--;
@@ -57,7 +58,7 @@ void	clkhandler()
 		}
 	}
 
-	/* Handle alarmq processes if any exist */
+	/* LAB 4Q3: Handle alarmq processes if any exist */
 
 	if(!alarmisempty(alarmq)) {
 

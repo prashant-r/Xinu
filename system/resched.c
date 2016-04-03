@@ -100,6 +100,8 @@ void resched_lab3(void)
 	ptnew->prctxswintime = currTime;
 	preempt = tsdtab[ptnew->prprio].ts_quantum;		/* Reset time slice for process	*/
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
+
+	// LAB 4Q3: Invoke the handleCallback
 	handleCallback();
 
 	/* Old process returns here when resumed */
@@ -214,6 +216,8 @@ void resched_lab2(void)
 	//Update the context switch-in time for new process
 	ptnew->prctxswintime = currTime;
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
+
+	// LAB 4Q3: Invoke the handleCallback
 	handleCallback();
 	/* Old process returns here when resumed */
 	return;
@@ -259,6 +263,8 @@ void	resched_lab1(void)		/* Assumes interrupts are disabled	*/
 	ptnew->prstate = PR_CURR;
 	preempt = QUANTUM;		/* Reset time slice for process	*/
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
+
+	// LAB 4Q3: Invoke the handleCallback
 	handleCallback();
 
 	/* Old process returns here when resumed */
@@ -266,11 +272,19 @@ void	resched_lab1(void)		/* Assumes interrupts are disabled	*/
 	return;
 }
 
-
+/*------------------------------------------------------------------------
+ *  handleCallback  - this method handles the invocation of callback functions for MYSIGALRM and
+ *  				  MYSIGRECV signals, MYSIGXCPU is take care of in the clkhandler.c . If the conditions
+ *  				  are met then the corresponding callback function is invoked right after being context
+ *  				  switched in .
+ *------------------------------------------------------------------------
+ */
 void handleCallback()
 {
 	struct procent *ptcurr;
 	ptcurr = &proctab[currpid];
+
+	// MYSIGRECV related callback processing
 	if(ptcurr->callback != NULL)
 	{
 		if(ptcurr->prhasmsg == TRUE){ // ensure that a message has arrived
@@ -279,6 +293,7 @@ void handleCallback()
 		ptcurr->prhasmsg = FALSE; // RESET the message buffer flag
 		}
 	}
+	// MYSIGALARM related callback processing
 	if (ptcurr->alarmfunc!= NULL) {
 		if(ptcurr->alarmTimeOut)
 		{

@@ -16,8 +16,13 @@ bool8 useSigRecv;
 */
 void lab4q3_AllTests(){
 	kprintf("\n // SIGRECV TESTS //\n");
+
+	// LAB 4Q3: V. IMP line, we are setting the useSigRecv to true here
+	// so we can test the MYSIGRECV signal functionality
 	useSigRecv = TRUE;
+	// next we invoke the same tests as for lab 4 q2.
 	lab4q2_AllTests();
+
 	kprintf("\n // ALARM TEST 1 //\n");
 	pid32 alarmTest1 = create(AlarmTest1,1024,20,"AlarmTest1",0);
 	resume(alarmTest1);
@@ -40,23 +45,39 @@ void lab4q3_AllTests(){
 }
 
 
+/*------------------------------------------------------------------------
+ *  myalarmhandler - handler for the alarm signal
+ *------------------------------------------------------------------------
+*/
 void myalarmhandler()
 {
 	kprintf(" Alarm handler called on process %d at time: %d\n", currpid, clktimemsec);
 }
 
+/*------------------------------------------------------------------------
+ *  myxcpuhandler - handler for the MYSIGXCPU signal
+ *------------------------------------------------------------------------
+*/
 void myxcpuhandler()
 {
 	struct	procent *prptr = &proctab[currpid];
 	kprintf(" XCPU handler called on process %d CPU time consumed so far: %d\n", currpid, (prptr->prcpumsec + (clktimemsec- prptr->prctxswintime)));
 }
-
+/*------------------------------------------------------------------------
+ *  myxcpuhandler_alternate - another handler for the MYSIGXCPU signal for testing purposes
+ *------------------------------------------------------------------------
+*/
 void myxcpuhandler_alternate()
 {
 	struct	procent *prptr = &proctab[currpid];
 	kprintf(" XCPU handler alternate called on process %d CPU time consumed so far: %d\n", currpid, (prptr->prcpumsec + (clktimemsec- prptr->prctxswintime)));
 }
 
+
+/*------------------------------------------------------------------------
+ *  registerSignal - common method to register a signal
+ *------------------------------------------------------------------------
+*/
 int registerSignal(uint16 asig, int16 time)
 {
 	switch(asig) {
@@ -96,7 +117,10 @@ int registerSignal(uint16 asig, int16 time)
 
 }
 
-
+/*------------------------------------------------------------------------
+ *  AlarmTest1 - tests if the alarm works after, visual verification needed in logs ~ 1000ms
+ *------------------------------------------------------------------------
+*/
 void AlarmTest1()
 {
 	registerSignal(MYSIGALRM, NULL);
@@ -108,6 +132,12 @@ void AlarmTest1()
 
 }
 
+/*------------------------------------------------------------------------
+ *  AlarmTest2 - for an already set alarm need to overwrite the alarm want to make
+ *  			 sure only the overwritten alarm delay is considered when kernel is
+ *  			 going to execute the callback function.
+ *------------------------------------------------------------------------
+*/
 void AlarmTest2()
 {
 	registerSignal(MYSIGALRM, NULL);
@@ -119,7 +149,14 @@ void AlarmTest2()
 	}
 
 }
-
+/*------------------------------------------------------------------------
+ *  XCputest1 - Simple XCputest to test it works, can only verify visually.
+ *  			Would recommend subtracting time displayed when call back
+ *  			shown from time displayed when started to verify it equals to
+ *  			arguments. Not time displayed here is CPU time as apposed to
+ *  			wall clock time.
+ *------------------------------------------------------------------------
+*/
 void XCputest1()
 {
 	registerSignal(MYSIGXCPU, 200);
@@ -128,7 +165,12 @@ void XCputest1()
 	}
 }
 
-
+/*------------------------------------------------------------------------
+ *  XCputest2 - Tests that xcputest runs once for each time registered and that
+ *  			second time registered for the same process would cause it to
+ *  			overwrite teh first registration.
+ *------------------------------------------------------------------------
+*/
 void XCputest2()
 {
 	registerSignal(MYSIGXCPU, 300);
@@ -142,7 +184,10 @@ void XCputest2()
 	}
 }
 
-
+/*------------------------------------------------------------------------
+ *  mixedProcess - Process registers all the different signals
+ *------------------------------------------------------------------------
+*/
 void mixedProcess(int xcpu, int alarm)
 {
 	registerSignal(MYSIGRECV, NULL);
@@ -155,6 +200,11 @@ void mixedProcess(int xcpu, int alarm)
 	}
 }
 
+/*------------------------------------------------------------------------
+ *  mixedTest - Tests mutliple concurrent mixedProcesses to ensure correctness.
+ *  			Again, only visual verification of console ouput is possible here.
+ *------------------------------------------------------------------------
+*/
 void mixedTest()
 {
 

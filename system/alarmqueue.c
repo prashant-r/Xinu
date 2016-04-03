@@ -5,7 +5,7 @@
 struct alarmqentry	alarmqueuetab[alarmNQENT];	/* Table of process queues	*/
 
 /*------------------------------------------------------------------------
- *  alarmenqueue  -  Insert a process at the tail of a queue
+ *  LAB 4Q3 alarmenqueue  -  Insert a process at the tail of a queue
  *------------------------------------------------------------------------
  */
 pid32	alarmenqueue(
@@ -30,7 +30,7 @@ pid32	alarmenqueue(
 }
 
 /*------------------------------------------------------------------------
- *  alarmdequeue  -  Remove and return the first process on a list
+ *  LAB 4Q3 alarmdequeue  -  Remove and return the first process on a list
  *------------------------------------------------------------------------
  */
 pid32	alarmdequeue(
@@ -53,7 +53,7 @@ pid32	alarmdequeue(
 
 
 /*------------------------------------------------------------------------
- *  alarminsertd  -  Insert a process in delta list using delay as the key
+ *   LAB 4Q3 alarminsertd  -  Insert a process in delta list using delay as the key
  *------------------------------------------------------------------------
  */
 status	alarminsertd(			/* Assumes interrupts disabled	*/
@@ -94,7 +94,7 @@ status	alarminsertd(			/* Assumes interrupts disabled	*/
 
 
 /*------------------------------------------------------------------------
- *  alarmgetfirst  -  Remove a process from the front of a queue
+ *  LAB 4Q3 alarmgetfirst  -  Remove a process from the front of a queue
  *------------------------------------------------------------------------
  */
 pid32	alarmgetfirst(
@@ -113,7 +113,7 @@ pid32	alarmgetfirst(
 }
 
 /*------------------------------------------------------------------------
- *  alarmgetlast  -  Remove a process from end of queue
+ * LAB 4Q3  alarmgetlast  -  Remove a process from end of queue
  *------------------------------------------------------------------------
  */
 pid32	alarmgetlast(
@@ -132,7 +132,7 @@ pid32	alarmgetlast(
 }
 
 /*------------------------------------------------------------------------
- *  alarmgetitem  -  Remove a process from an arbitrary point in a queue
+ *  LAB 4Q3 alarmgetitem  -  Remove a process from an arbitrary point in a queue
  *------------------------------------------------------------------------
  */
 pid32	alarmgetitem(
@@ -150,7 +150,7 @@ pid32	alarmgetitem(
 
 
 /*------------------------------------------------------------------------
- *  alarmnewqueue  -  Allocate and initialize a queue in the global queue table
+ *  LAB 4Q3 alarmnewqueue  -  Allocate and initialize a queue in the global queue table
  *------------------------------------------------------------------------
  */
 qid16	alarmnewqueue(void)
@@ -178,7 +178,7 @@ qid16	alarmnewqueue(void)
 
 
 /* ----------------------------------------------------------
- * alarmprintQueue - prints the contents of the queue
+ * LAB 4Q3  alarmprintQueue - prints the contents of the queue
  *----------------------------------------------------------
  */
 pid32 alarmprintQueue(qid16 q)
@@ -200,7 +200,7 @@ pid32 alarmprintQueue(qid16 q)
 
 
 /* ----------------------------------------------------------
- * alarmcontains - check if the process exists in the queue
+ * LAB 4Q3 alarmcontains - check if the process exists in the queue
  *----------------------------------------------------------
  */
 int32 alarmcontains(qid16 q, pid32 pid)

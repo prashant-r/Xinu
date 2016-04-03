@@ -5,7 +5,7 @@
 #define	MAXSECONDS	4294967		/* Max seconds per 32-bit msec	*/
 
 /*------------------------------------------------------------------------
- *  alarm  -  Delay the calling process n seconds
+ *  alarm  -  LAB 4Q3 Delay the calling process's callback function invocation n seconds
  *------------------------------------------------------------------------
  */
 syscall	alarm(
@@ -20,7 +20,7 @@ syscall	alarm(
 }
 
 /*------------------------------------------------------------------------
- *  alarmms  -  Delay the calling process n milliseconds
+ *  alarmms  - LAB 4Q3 Delay the calling process's callback function invocation by n milliseconds
  *------------------------------------------------------------------------
  */
 syscall	alarmms(
@@ -31,12 +31,15 @@ syscall	alarmms(
 	kprintf(" Alarm for process %d started at %d \n", currpid, clktimemsec);
 	struct procent *prptr = &proctab[currpid];
 	mask = disable();
+	// LAB 4Q3: Check if the call back function has been registered else
+	// return SYSERR
 	if(prptr->alarmfunc == NULL)
 	{
 		restore(mask);
 		return SYSERR;
 	}
-
+	// If thee delay sepecified was 0 then just execute the callback function immediatly without
+	// inserting into the alarmq
 	if (delay == 0) {
 		struct procent *prptr = &proctab[currpid];
 		void (*alarmFunction) () = prptr->alarmfunc;
@@ -48,7 +51,9 @@ syscall	alarmms(
 		restore(mask);
 		return OK;
 	}
+	// First remove the process from the queue if it already exists
 	alarmgetitem(currpid);
+	// Reinsert if process was already on queue or just plain insert if not.
 	if (alarminsertd(currpid, alarmq, delay) == SYSERR) {
 		restore(mask);
 		return SYSERR;

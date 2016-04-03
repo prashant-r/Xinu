@@ -21,7 +21,7 @@ void	clkinit(void)
 
 	sleepq = newqueue();
 
-	/* Allocate an alarm queue to hold the delta list of the alarm pending processes */
+	/* LAB 4Q3 : Allocate an alarm queue to hold the delta list of the alarm pending processes */
 
 	alarmq = alarmnewqueue();
 

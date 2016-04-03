@@ -15,6 +15,7 @@ bool8 useSigRecv;
  *------------------------------------------------------------------------
 */
 void lab4q2_AllTests(){
+	// global variable useSigRecv determines if the registercb is
 	useSigRecv = FALSE;
 	kprintf("\n // TEST 1 //\n");
 	AsynchronousTest1();
@@ -24,7 +25,10 @@ void lab4q2_AllTests(){
 	AsynchronousTest3();
 }
 
-
+/*------------------------------------------------------------------------
+ *  AsynchronousSender - sends a message to the receiver
+ *------------------------------------------------------------------------
+*/
 int32 AsynchronousSender(pid32 receiver, umsg32 msg)
 {
 
@@ -37,6 +41,12 @@ int32 AsynchronousSender(pid32 receiver, umsg32 msg)
 	return OK;
 }
 
+/*------------------------------------------------------------------------
+ *  AsynchronousReceiver - using registercbsig and registercb are identical and they
+ *  					   register the callback function for the when the message does arrive
+ *  					   that which needs to be executed.
+ *------------------------------------------------------------------------
+*/
 int AsynchronousReceiver()
 {
 	if(useSigRecv)
@@ -47,7 +57,6 @@ int AsynchronousReceiver()
 					   		}
 	}
 	else{
-		//kprintf("recv handler registration success %d \n", currpid);
 		if (registercb(&myrecvhandler) != OK) {
 			kprintf("recv handler registration failed\n");
 			return 1;
@@ -58,7 +67,13 @@ int AsynchronousReceiver()
 
 	}
 }
-
+/*------------------------------------------------------------------------
+ *  AsynchronousReceiver_NoReceive - Similar to Asynchronous Receive but registers a handler that doesn't actually recieve() the
+ *  								 message so it simulates an app programmer who just doesn't care about the message
+ *  								 buffer being cleared or not. We as kernel developers must ensure the message becomes stale after the
+ *  								 callback function has executed so new messages can be received.
+ *------------------------------------------------------------------------
+*/
 
 int AsynchronousReceiver_NoReceive()
 {
@@ -71,17 +86,32 @@ int AsynchronousReceiver_NoReceive()
 
 	}
 }
+/*------------------------------------------------------------------------
+ *  myrecvhandler_NoReceive : A handler that doesn't actually invoke receive() to retrieve messages.   -
+ *------------------------------------------------------------------------
+*/
 
 int myrecvhandler_NoReceive(void) {
 	//kprintf("In myrecvhandler_NoReceive: pid: %d time: %d\n", currpid, clktimemsec);
 	return(OK);
 }
+/*------------------------------------------------------------------------
+ *  myrecvhandler : Typical handler that does actually invoke receive() to retrieve messages.   -
+ *------------------------------------------------------------------------
+*/
 
 int myrecvhandler(void) {
 	msgglob = receive();  // use global to return value
 	kprintf(" In myrecvhandler: pid: %d time: %d msg: %d\n", currpid, clktimemsec, msgglob);
 	return(OK);
 }
+
+
+/*------------------------------------------------------------------------
+ *  AsynchronousTest1 : This test is to check that  a simple one word message get's delivered timely
+ *  					and that the callback function executes correcty.
+ *------------------------------------------------------------------------
+*/
 
 void AsynchronousTest1() // asynchronous message test 1
 {
@@ -96,6 +126,12 @@ void AsynchronousTest1() // asynchronous message test 1
 		kprintf("Test1 failed! result %d \n", msgglob);
 }
 
+/*------------------------------------------------------------------------
+ *  AsynchronousTest2 : This test is to check the influence of having process invoke receive()
+ *  				    in the call back handler. To make sure that we clear the message buffer flag correctly
+ *  				    after each callback function execution.
+ *------------------------------------------------------------------------
+*/
 
 void AsynchronousTest2() // asynchronous message test 2
 {
@@ -117,7 +153,13 @@ void AsynchronousTest2() // asynchronous message test 2
 		kprintf("Test2 failed! \n", msgglob);
 }
 
-
+/*------------------------------------------------------------------------
+ *  AsynchronousTest3 : This test is to check that once registered a callback for a process,
+ *  					we won't need to re register the callback and multiple senders can send
+ *  					the process messages and each time it would execute the callback function
+ *  					accordingly.
+ *------------------------------------------------------------------------
+*/
 void AsynchronousTest3() // asynchronous message test 3
 {
 	pid32 asyncRec1 =  create(AsynchronousReceiver,1024,20,"Reeiver1Test3",0,NULL);

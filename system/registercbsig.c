@@ -1,5 +1,9 @@
 #include <xinu.h>
 
+/*------------------------------------------------------------------------
+ *  registercbsig - LAB 4Q3 registers the callback for the three type of callback function signals
+ *------------------------------------------------------------------------
+*/
 syscall registercbsig(uint16 asig, int (*func)(void),uint32 optarg){
 
 	intmask mask;
@@ -25,9 +29,11 @@ syscall registercbsig(uint16 asig, int (*func)(void),uint32 optarg){
 		   	}
 		   else
 		   {
+			   // Overwrite the existing alarm
 			   prptr->alarmfunc = func;	// point to the callback function
 			   if(optarg != NULL){
 			   	prptr->alarmtime = optarg;
+			   	// Remove from the alarmq and reinsert to overwrite
 			   	alarmgetitem(currpid);
 			   	alarminsertd(currpid, alarmq, optarg); // overwrite existing alarm
 			   }
@@ -47,9 +53,8 @@ syscall registercbsig(uint16 asig, int (*func)(void),uint32 optarg){
 		   prptr->xcputime = optarg;
 
 		   break;}
-	   /* you can have any number of case statements */
 	   default : /* Optional */
-		   kprintf("In registercbsig: Invalid Signal");
+		   kprintf("In registercbsig: Invalid Signal \n");
 	}
 	restore(mask);	//restore the mask
 	return OK;
