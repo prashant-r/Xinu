@@ -61,7 +61,8 @@ pid32	create(
 		;
 	prptr->prsem = -1;
 	prptr->prparent = (pid32)getpid();
-	prptr->prhasmsg = FALSE;\
+	prptr->prhasmsg = FALSE;
+	// LAB 4Q3 Initalize the following
 	prptr->callback = NULL;
 	prptr->alarmfunc = NULL;
 	prptr->alarmtime = 0;

@@ -11,7 +11,7 @@
 umsg32 msgglob;
 bool8 useSigRecv;
 /*------------------------------------------------------------------------
- *  lab4q2_AllTests - Runs four test cases for lab 3 q4 as required by problem spec.
+ *  lab4q2_AllTests - LAB 4Q2 :  Runs four test cases for lab 3 q4 as required by problem spec.
  *------------------------------------------------------------------------
 */
 void lab4q2_AllTests(){
@@ -26,7 +26,7 @@ void lab4q2_AllTests(){
 }
 
 /*------------------------------------------------------------------------
- *  AsynchronousSender - sends a message to the receiver
+ *  AsynchronousSender -  LAB 4Q2 sends a message to the receiver
  *------------------------------------------------------------------------
 */
 int32 AsynchronousSender(pid32 receiver, umsg32 msg)
@@ -42,7 +42,7 @@ int32 AsynchronousSender(pid32 receiver, umsg32 msg)
 }
 
 /*------------------------------------------------------------------------
- *  AsynchronousReceiver - using registercbsig and registercb are identical and they
+ *  AsynchronousReceiver -  LAB 4Q2 using registercbsig and registercb are identical and they
  *  					   register the callback function for the when the message does arrive
  *  					   that which needs to be executed.
  *------------------------------------------------------------------------
@@ -68,7 +68,7 @@ int AsynchronousReceiver()
 	}
 }
 /*------------------------------------------------------------------------
- *  AsynchronousReceiver_NoReceive - Similar to Asynchronous Receive but registers a handler that doesn't actually recieve() the
+ *  AsynchronousReceiver_NoReceive - LAB 4Q2 Similar to Asynchronous Receive but registers a handler that doesn't actually recieve() the
  *  								 message so it simulates an app programmer who just doesn't care about the message
  *  								 buffer being cleared or not. We as kernel developers must ensure the message becomes stale after the
  *  								 callback function has executed so new messages can be received.
@@ -87,7 +87,7 @@ int AsynchronousReceiver_NoReceive()
 	}
 }
 /*------------------------------------------------------------------------
- *  myrecvhandler_NoReceive : A handler that doesn't actually invoke receive() to retrieve messages.   -
+ *  myrecvhandler_NoReceive :  LAB 4Q2 A handler that doesn't actually invoke receive() to retrieve messages.   -
  *------------------------------------------------------------------------
 */
 
@@ -96,7 +96,7 @@ int myrecvhandler_NoReceive(void) {
 	return(OK);
 }
 /*------------------------------------------------------------------------
- *  myrecvhandler : Typical handler that does actually invoke receive() to retrieve messages.   -
+ *  myrecvhandler :  LAB 4Q2 Typical handler that does actually invoke receive() to retrieve messages.   -
  *------------------------------------------------------------------------
 */
 
@@ -108,7 +108,7 @@ int myrecvhandler(void) {
 
 
 /*------------------------------------------------------------------------
- *  AsynchronousTest1 : This test is to check that  a simple one word message get's delivered timely
+ *  AsynchronousTest1 : LAB 4Q2 This test is to check that  a simple one word message get's delivered timely
  *  					and that the callback function executes correcty.
  *------------------------------------------------------------------------
 */
@@ -127,7 +127,7 @@ void AsynchronousTest1() // asynchronous message test 1
 }
 
 /*------------------------------------------------------------------------
- *  AsynchronousTest2 : This test is to check the influence of having process invoke receive()
+ *  AsynchronousTest2 :  LAB 4Q2 This test is to check the influence of having process invoke receive()
  *  				    in the call back handler. To make sure that we clear the message buffer flag correctly
  *  				    after each callback function execution.
  *------------------------------------------------------------------------
@@ -154,7 +154,7 @@ void AsynchronousTest2() // asynchronous message test 2
 }
 
 /*------------------------------------------------------------------------
- *  AsynchronousTest3 : This test is to check that once registered a callback for a process,
+ *  AsynchronousTest3 :  LAB 4Q2 This test is to check that once registered a callback for a process,
  *  					we won't need to re register the callback and multiple senders can send
  *  					the process messages and each time it would execute the callback function
  *  					accordingly.

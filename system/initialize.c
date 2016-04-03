@@ -149,6 +149,7 @@ static	void	sysinit()
 		prptr->prstkbase = NULL;
 		prptr->prprio = 0;
 		prptr->prcpumsec = MAX_UINT32;
+		// LAB 4Q3 Initalize the following
 		prptr->callback = NULL;
 		prptr->alarmfunc= NULL;
 		prptr->alarmtime =0;
@@ -171,6 +172,7 @@ static	void	sysinit()
 	else
 		prptr->prcpumsec = 0;
 	prptr->prctxswintime = 0;
+	// LAB 4Q3 Initalize the following
 	prptr->callback = NULL;
 	prptr->alarmfunc= NULL;
 	prptr->alarmtime =0;

@@ -11,7 +11,7 @@
 umsg32 msgglob;
 bool8 useSigRecv;
 /*------------------------------------------------------------------------
- *  lab4q3_AllTests - Runs four test cases for lab 3 q4 as required by problem spec.
+ *  lab4q3_AllTests -  LAB 4Q3 Runs four test cases for lab 3 q4 as required by problem spec.
  *------------------------------------------------------------------------
 */
 void lab4q3_AllTests(){
@@ -46,7 +46,7 @@ void lab4q3_AllTests(){
 
 
 /*------------------------------------------------------------------------
- *  myalarmhandler - handler for the alarm signal
+ *  myalarmhandler -  LAB 4Q3 handler for the alarm signal
  *------------------------------------------------------------------------
 */
 void myalarmhandler()
@@ -55,7 +55,7 @@ void myalarmhandler()
 }
 
 /*------------------------------------------------------------------------
- *  myxcpuhandler - handler for the MYSIGXCPU signal
+ *  myxcpuhandler -  LAB 4Q3 handler for the MYSIGXCPU signal
  *------------------------------------------------------------------------
 */
 void myxcpuhandler()
@@ -64,7 +64,7 @@ void myxcpuhandler()
 	kprintf(" XCPU handler called on process %d CPU time consumed so far: %d\n", currpid, (prptr->prcpumsec + (clktimemsec- prptr->prctxswintime)));
 }
 /*------------------------------------------------------------------------
- *  myxcpuhandler_alternate - another handler for the MYSIGXCPU signal for testing purposes
+ *  myxcpuhandler_alternate -  LAB 4Q3 another handler for the MYSIGXCPU signal for testing purposes
  *------------------------------------------------------------------------
 */
 void myxcpuhandler_alternate()
@@ -75,7 +75,7 @@ void myxcpuhandler_alternate()
 
 
 /*------------------------------------------------------------------------
- *  registerSignal - common method to register a signal
+ *  registerSignal -  LAB 4Q3 common method to register a signal
  *------------------------------------------------------------------------
 */
 int registerSignal(uint16 asig, int16 time)
@@ -118,7 +118,7 @@ int registerSignal(uint16 asig, int16 time)
 }
 
 /*------------------------------------------------------------------------
- *  AlarmTest1 - tests if the alarm works after, visual verification needed in logs ~ 1000ms
+ *  AlarmTest1 -  LAB 4Q3 tests if the alarm works after, visual verification needed in logs ~ 1000ms
  *------------------------------------------------------------------------
 */
 void AlarmTest1()
@@ -133,7 +133,7 @@ void AlarmTest1()
 }
 
 /*------------------------------------------------------------------------
- *  AlarmTest2 - for an already set alarm need to overwrite the alarm want to make
+ *  AlarmTest2 -  LAB 4Q3 for an already set alarm need to overwrite the alarm want to make
  *  			 sure only the overwritten alarm delay is considered when kernel is
  *  			 going to execute the callback function.
  *------------------------------------------------------------------------
@@ -150,7 +150,7 @@ void AlarmTest2()
 
 }
 /*------------------------------------------------------------------------
- *  XCputest1 - Simple XCputest to test it works, can only verify visually.
+ *  XCputest1 -  LAB 4Q3 Simple XCputest to test it works, can only verify visually.
  *  			Would recommend subtracting time displayed when call back
  *  			shown from time displayed when started to verify it equals to
  *  			arguments. Not time displayed here is CPU time as apposed to
@@ -166,9 +166,9 @@ void XCputest1()
 }
 
 /*------------------------------------------------------------------------
- *  XCputest2 - Tests that xcputest runs once for each time registered and that
+ *  XCputest2 -  LAB 4Q3 Tests that xcputest runs once for each time registered and that
  *  			second time registered for the same process would cause it to
- *  			overwrite teh first registration.
+ *  			overwrite the first registration so mycpuxhandler_alternate should be called instead.
  *------------------------------------------------------------------------
 */
 void XCputest2()
@@ -185,7 +185,7 @@ void XCputest2()
 }
 
 /*------------------------------------------------------------------------
- *  mixedProcess - Process registers all the different signals
+ *  mixedProcess -  LAB 4Q3 Process registers all the different signals
  *------------------------------------------------------------------------
 */
 void mixedProcess(int xcpu, int alarm)
@@ -201,7 +201,7 @@ void mixedProcess(int xcpu, int alarm)
 }
 
 /*------------------------------------------------------------------------
- *  mixedTest - Tests mutliple concurrent mixedProcesses to ensure correctness.
+ *  mixedTest -  LAB 4Q3 Tests mutliple concurrent mixedProcesses to ensure correctness.
  *  			Again, only visual verification of console ouput is possible here.
  *------------------------------------------------------------------------
 */
