@@ -1,0 +1,57 @@
+NAME
+	syscall registercbsig() - registering call back signals	
+
+
+SYNOPSIS
+	#include <xinu.h>
+	syscall registercbsig(uint16, (* void ),uint32);	
+
+
+DESCRIPTION
+
+	registercbsig() is a similar procedure to registercb() but differs from it in that it supports registration of MYSIGXCPU,MYSIGALRM and MYSIGRECV signals instead of only MYSIGRECV.
+	Registration of a callback function for a process with the kernel involves declaring values in that process's procent data structure that enables kernel to identify when to run the callback method.	
+	Employing registercbsig() is useful, for example, when a callback function for a process must be run in its context after a specific amount of time i.e MYSIGALRM , when a function must be run when
+	a message arrives i.e, generation of MYSIGRECV signal , or when a function must be run in its own context after having claimed a specifc amount of CPU time i.e MYSIGXCPU.
+	
+	registercbsig disables maskable interrupts, executes and then restores the interrupts on return from the system call. 
+	
+	Symbolic constants for signal numbers can be found in the header
+    file <include/mysignal.h>.
+
+RETURN VALUE 
+
+    A return value of 1(OK) indicates success . A -1(SYSERR) return value
+    indicates an error, and error codes are declared under kernel.h	
+
+OPTIONS
+
+	not executable from command line, so no options not applicable.
+
+BUGS
+
+	For test cases provided in lab4q2.c and lab4q3.c it satisfies all test cases.
+
+
+EXAMPLE
+
+       #define _XINU_SOURCE
+       #include <xinu.h>
+       int
+       main(int argc, char *argv[])
+       {
+          registercbsig(MYSIGRECV, &myrecvhandler) != OK) 
+		  {		  
+			kprintf("recv handler registration failed\n");
+			return 1;
+		  }
+       }
+
+AUTHOR
+
+	Prashant Ravi, ravi18@purdue.edu
+
+
+SEE ALSO
+
+	registercb()

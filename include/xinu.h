@@ -43,3 +43,5 @@
 #include <string.h>
 #include <ts_disptb.h>
 #include <multilevelfbq.h>
+#include <mysignal.h>
+#include <alarmqueue.h>

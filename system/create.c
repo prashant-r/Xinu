@@ -61,7 +61,13 @@ pid32	create(
 		;
 	prptr->prsem = -1;
 	prptr->prparent = (pid32)getpid();
-	prptr->prhasmsg = FALSE;
+	prptr->prhasmsg = FALSE;\
+	prptr->callback = NULL;
+	prptr->alarmfunc = NULL;
+	prptr->alarmtime = 0;
+	prptr->alarmTimeOut = FALSE;
+	prptr->xcpufunc = NULL;
+	prptr->xcputime = 0;
 
 	/* Set up stdin, stdout, and stderr descriptors for the shell	*/
 	prptr->prdesc[0] = CONSOLE;

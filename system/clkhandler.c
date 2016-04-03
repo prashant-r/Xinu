@@ -16,6 +16,19 @@ void	clkhandler()
 
 	// increment the clktimemsec since it has
 	clktimemsec++;
+
+
+	struct procent *prptr = &proctab[currpid];
+	if (prptr->xcpufunc!= NULL) {
+			prptr->xcputime--;
+			//kprintf(" XCPU pid %d, xcputime %d", currpid, prptr->xcputime);
+			if (prptr->xcputime == 0) {
+				void (*xcpuFunction) () = prptr->xcpufunc;
+				prptr->xcputime = 0;
+				xcpuFunction();
+				prptr->xcpufunc = NULL;
+		}
+	}
 	// wrap-around clktimemsec if it has reached its maximum;
 	if(clktimemsec == MAX_UINT32)
 		clktimemsec = 0;
@@ -44,6 +57,17 @@ void	clkhandler()
 		}
 	}
 
+	/* Handle alarmq processes if any exist */
+
+	if(!alarmisempty(alarmq)) {
+
+		/* Decrement the delay for the first process on the	*/
+		/*   sleep queue, and awaken if the count reaches zero	*/
+
+		if((--alarmqueuetab[alarmfirstid(alarmq)].qkey) <= 0) {
+			alarmwakeup();
+		}
+	}
 	/* Decrement the preemption counter, and reschedule when the */
 	/*   remaining time reaches zero			     */
 

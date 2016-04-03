@@ -149,6 +149,12 @@ static	void	sysinit()
 		prptr->prstkbase = NULL;
 		prptr->prprio = 0;
 		prptr->prcpumsec = MAX_UINT32;
+		prptr->callback = NULL;
+		prptr->alarmfunc= NULL;
+		prptr->alarmtime =0;
+		prptr->alarmTimeOut = FALSE;
+		prptr->xcpufunc = NULL;
+		prptr->xcputime =0;
 	}
 
 	/* Initialize the Null process entry */	
@@ -165,6 +171,13 @@ static	void	sysinit()
 	else
 		prptr->prcpumsec = 0;
 	prptr->prctxswintime = 0;
+	prptr->callback = NULL;
+	prptr->alarmfunc= NULL;
+	prptr->alarmtime =0;
+	prptr->alarmTimeOut = FALSE;
+	prptr->xcpufunc = NULL;
+	prptr->xcputime =0;
+
 	currpid = NULLPROC;
 
 	/* Initialize semaphores */
@@ -190,11 +203,12 @@ static	void	sysinit()
 
 	/* Display the dispatch table */
 	int row = 0;
+	if(lab == 3){
 	kprintf("--------------------------Dispatch Table Looks Like------------------------------\n");
 	for(row = 0;row < 20;row++){
 		kprintf("Level no. %d is| tqexp is %d | slpret is %d | quantum is %d \n",row, tsdtab[row].ts_tqexp,tsdtab[row].ts_slpret,tsdtab[row].ts_quantum);//printed out table
+		}
 	}
-
 	// Initialize the queue array structure that maintains the queue at each level
 	for (row =0 ; row <20; row++)
 		queueArr[row] = newqueue();

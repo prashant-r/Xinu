@@ -28,7 +28,15 @@ syscall	send(
 	prptr->prmsg = msg;		/* Deliver message		*/
 	prptr->prhasmsg = TRUE;		/* Indicate message is waiting	*/
 
-	/* If recipient waiting or in timed-wait make it ready */
+	if(prptr->callback!=NULL)
+	{
+		if(msg == NULL)
+			kprintf(" In send: Will invoke asynch callback at pid: %d time: %d\n", pid, clktimemsec);
+		else
+			kprintf(" In send: Will invoke asynch callback at pid: %d time: %d msg: %d \n", pid, clktimemsec, msg);
+
+	}
+		/* If recipient waiting or in timed-wait make it ready */
 
 	if (prptr->prstate == PR_RECV) {
 		ready(pid);

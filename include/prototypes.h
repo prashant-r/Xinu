@@ -8,7 +8,20 @@
  */
 extern int lab2flag;
 extern int32 lab;
+extern umsg32 msgglob;
+extern bool8 useSigRecv;
 
+
+/* in lab4q2.c */
+extern int32 AsynchronousSender(pid32 receiver, umsg32 msg);
+
+/* in lab4q3.c */
+extern void AlarmTest1();
+extern void AlarmTest2();
+extern void XCputest1();
+extern void XCputest2();
+extern void mixedTest();
+extern void mixedProcess(int xcpu, int alarm);
 /*
  * in myhacker.c
  */
@@ -176,6 +189,13 @@ extern	pid32	getitem(pid32);
 extern	pid32	mygetfirst(qid16);
 extern	pid32	mygetlast(qid16);
 extern	pid32	mygetitem(pid32);
+
+/* in file alarmqueue.c */
+extern	pid32	alarmgetfirst(qid16);
+extern	pid32	alarmgetlast(qid16);
+extern	pid32	alarmgetitem(pid32);
+extern  int32   alarmcontains(qid16 q, pid32 pid);
+
 /* in file getmem.c */
 extern	char	*getmem(uint32);
 
@@ -237,6 +257,9 @@ extern	status	insert(pid32, qid16, int32);
 
 /* in file insertd.c */
 extern	status	insertd(pid32, qid16, int32);
+
+/* in file alarmqueue.c */
+extern status alarminsertd(pid32, qid16, int32);
 
 /* in file intr.S */
 extern	uint16	getirmask(void);
@@ -333,7 +356,11 @@ extern void lab3q3t3(void);
 /* in file lab2q4.c */
 extern void lab3q4_AllTests(void);
 
+/* in file lab4q2.c */
+extern void lab4q2_AllTests(void);
 
+/* in file lab4q3.c */
+extern void lab4q3_AllTests(void);
 
 /* in file lexan.c */
 extern	int32	lexan(char *, int32, char *, int32 *, int32 [], int32 []);
@@ -448,7 +475,22 @@ extern pid32	myenqueue(
 extern pid32	mydequeue(
 	  qid16		q		/* ID queue to use		*/
 	);
+
 extern pid32 myprintQueue(qid16 q);
+
+extern pid32 alarmprintQueue(qid16 q);
+
+/* in file alarmqueue.c */
+
+extern pid32	alarmenqueue(
+	  pid32		pid,		/* ID of process to insert	*/
+	  qid16		q		/* ID of queue to use		*/
+	);
+extern pid32	alarmdequeue(
+	  qid16		q		/* ID queue to use		*/
+	);
+
+extern pid32 alarmprintQueue(qid16 q);
 
 
 /* in file myfuncA.c */
@@ -464,6 +506,14 @@ extern void myhackermalware(int z);
 /* in file myvictim.c */
 extern void myvictim(int x);
 extern void makevictimsleep(int x);
+
+/* in file lab4q2.c*/
+extern int myrecvhandler(void) ;
+extern int myrecvhandler_NoReceive(void);
+/* in file lab4q3.c */
+extern void myalarmhandler();
+
+extern void myxcpuhandler();
 
 /* in file multilevelfbq.c*/
 extern pid32 multifeedbackDQ();
@@ -489,6 +539,8 @@ extern	devcall	namopen(struct dentry *, char *, char *);
 extern	qid16	newqueue(void);
 extern	qid16	mynewqueue(void);
 
+/* in file alarmqueue.c */
+extern qid16 alarmnewqueue(void);
 
 /* in file open.c */
 extern	syscall	open(did32, char *, char *);

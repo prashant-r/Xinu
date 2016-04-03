@@ -14,4 +14,5 @@ extern uint32 clktimemsec; /* current time in msec since boot */
 extern	uint32	clktime;	/* current time in secs since boot	*/
 
 extern	qid16	sleepq;		/* queue for sleeping processes		*/
+extern  qid16   alarmq; /* queue for alarm pending processes */
 extern	uint32	preempt;	/* preemption counter			*/

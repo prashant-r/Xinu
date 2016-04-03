@@ -7,6 +7,7 @@ uint32	ctr1000 = 0;		/* Milliseconds since boot		*/
 qid16	sleepq;			/* Queue of sleeping processes		*/
 uint32	preempt;		/* Preemption counter			*/
 uint32  clktimemsec; /*milliseconds */
+qid16 alarmq; /* Queue of the alarm pending processes */
 
 /*------------------------------------------------------------------------
  * clkinit  -  Initialize the clock and sleep queue at startup (x86)
@@ -19,6 +20,10 @@ void	clkinit(void)
 	/* Allocate a queue to hold the delta list of sleeping processes*/
 
 	sleepq = newqueue();
+
+	/* Allocate an alarm queue to hold the delta list of the alarm pending processes */
+
+	alarmq = alarmnewqueue();
 
 	/* Initialize the preemption count */
 

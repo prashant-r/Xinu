@@ -100,6 +100,7 @@ void resched_lab3(void)
 	ptnew->prctxswintime = currTime;
 	preempt = tsdtab[ptnew->prprio].ts_quantum;		/* Reset time slice for process	*/
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
+	handleCallback();
 
 	/* Old process returns here when resumed */
 
@@ -213,6 +214,7 @@ void resched_lab2(void)
 	//Update the context switch-in time for new process
 	ptnew->prctxswintime = currTime;
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
+	handleCallback();
 	/* Old process returns here when resumed */
 	return;
 
@@ -257,12 +259,38 @@ void	resched_lab1(void)		/* Assumes interrupts are disabled	*/
 	ptnew->prstate = PR_CURR;
 	preempt = QUANTUM;		/* Reset time slice for process	*/
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
+	handleCallback();
 
 	/* Old process returns here when resumed */
 
 	return;
 }
 
+
+void handleCallback()
+{
+	struct procent *ptcurr;
+	ptcurr = &proctab[currpid];
+	if(ptcurr->callback != NULL)
+	{
+		if(ptcurr->prhasmsg == TRUE){ // ensure that a message has arrived
+		void (*callbackfn) () = ptcurr->callback;
+		callbackfn();
+		ptcurr->prhasmsg = FALSE; // RESET the message buffer flag
+		}
+	}
+	if (ptcurr->alarmfunc!= NULL) {
+		if(ptcurr->alarmTimeOut)
+		{
+			ptcurr->alarmTimeOut = FALSE;
+			ptcurr->alarmtime = 0;
+			void (*alarmFunction) () = ptcurr->alarmfunc;
+			alarmFunction();
+			ptcurr->alarmfunc = NULL;
+		}
+	}
+
+}
 
 /*------------------------------------------------------------------------
  *  reward_ready_waiting  -  this method promotes all the processes on the readylist by giving them each an
